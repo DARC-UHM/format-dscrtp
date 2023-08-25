@@ -460,8 +460,7 @@ class AnnotationRow:
         :param list warning_messages: The list of warning messages to display at the end of the script.
         """
         if 'oxygen_ml_l' in self.annotation['ancillary_data']:
-            # convert to mL/L
-            self.columns['Oxygen'] = round(self.annotation['ancillary_data']['oxygen_ml_l'] / 1.42903, 4)
+            self.columns['Oxygen'] = round(self.annotation['ancillary_data']['oxygen_ml_l'], 4)
         else:
             self.columns['Oxygen'] = NULL_VAL_INT
             # flag warning

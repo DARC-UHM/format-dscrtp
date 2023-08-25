@@ -466,7 +466,7 @@ class TestAnnotationRow:
         warnings = []
         test_row = AnnotationRow(annotations[1])
         test_row.set_oxygen(warnings)
-        assert test_row.columns['Oxygen'] == 5.1221
+        assert test_row.columns['Oxygen'] == 7.3196
         assert warnings == []
 
     def test_set_oxygen_none(self):
