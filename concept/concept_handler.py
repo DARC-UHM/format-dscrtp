@@ -136,7 +136,6 @@ class ConceptHandler:
             vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/{temp_name}')
             if vars_tax_res.status_code == 200:
                 # this get us to kingdom
-                print(vars_tax_res.json())
                 vars_tree = vars_tax_res.json()['children'][0]['children'][0]['children'][0]['children'][0]
                 temp_tree = vars_tree
                 while 'children' in vars_tree.keys():
@@ -215,13 +214,24 @@ class ConceptHandler:
         else:
             print(f'{Color.RED}Unaccepted{Color.END}')
             self.unaccepted_names.append(json_record['scientificname'])
-            print(f"{Color.BOLD}%-40s %-35s{Color.END}" % ('', json_record['valid_name']), end='')
-            sys.stdout.flush()
-            req = requests.get('https://www.marinespecies.org/rest/AphiaRecordsByName/' + json_record['valid_name'] +
-                              '?like=false&marine_only=true&offset=1')
-            if req.status_code == 200:
-                json_records = req.json()
-                self.find_accepted_record(json_records, json_record['valid_name'])
+            """
+            There is at least one case in WoRMS where the record is unaccepted, but the "accepted name" is the same as
+            the current scientific name and the "valid aphia ID" is the same as the current aphia ID: 
+            https://www.marinespecies.org/rest/AphiaRecordsByName/Acroechinoidea
+            
+            In this case, we'll just go with the parent
+            """
+            if json_record['valid_name'] == json_record['scientificname']:
+                self.find_parent()
+                self.fetch_worms()
+            else:
+                print(f"{Color.BOLD}%-40s %-35s{Color.END}" % ('', json_record['valid_name']), end='')
+                sys.stdout.flush()
+                req = requests.get('https://www.marinespecies.org/rest/AphiaRecordsByName/' + json_record['valid_name'] +
+                                  '?like=false&marine_only=true&offset=1')
+                if req.status_code == 200:
+                    json_records = req.json()
+                    self.find_accepted_record(json_records, json_record['valid_name'])
 
     def fetch_worms_taxon_tree(self):
         """
