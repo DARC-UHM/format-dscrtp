@@ -220,10 +220,13 @@ for dive_name in sequence_names:
                 media_type = 'video observation'
                 break
 
-        # if there is a cmecs geo form, update
+        # update megahabitat
+        if get_association(annotation, 'megahabitat'):
+            current_cmecs_geo_form = get_association(annotation, "megahabitat")["to_concept"]
+        # update habitat
         if get_association(annotation, 'habitat'):
-            current_cmecs_geo_form = f'{get_association(annotation, "megahabitat")["to_concept"]}, ' \
-                                     f'{get_association(annotation, "habitat")["to_concept"]}'
+            current_cmecs_geo_form = f'{current_cmecs_geo_form.split(",")[0]}, ' \
+                                      f'{get_association(annotation, "habitat")["to_concept"]}'
 
         # populate the rest of the annotation data
         annotation_row.set_media_type(media_type=media_type)
@@ -282,12 +285,25 @@ with open(output_file_name + '.tsv', 'w', newline='', encoding='utf-8') as file:
     for record in full_report_records:
         csv_writer.writerow(record[:88])
 
-print(f'\n{Color.BOLD}Output file saved to:{Color.END} {Color.UNDERLINE}{output_file_path}{Color.END}')
+print(f'\n{Color.BOLD}Output file saved to:{Color.END} {Color.UNDERLINE}{output_file_path}/{output_file_name}.tsv{Color.END}')
 print(f'\n{Color.YELLOW}There are {len(warning_messages)} warning messages.{Color.END}\n')
 
 # Print warning messages
 if len(warning_messages) > 0:
-    print(f'View messages?')
+    with open('warnings.tsv', 'w') as file:
+        csv_writer = csv.writer(file, delimiter='\t')
+        csv_writer.writerow(['Sample ID', 'Concept Name', 'UUID', 'Message'])
+        for message in warning_messages:
+            raw_message = []
+            for col in message:
+                raw_message.append(col.replace(Color.BOLD, '')
+                                   .replace(Color.END, '').replace(Color.YELLOW, '')
+                                   .replace(Color.RED, '').replace(Color.UNDERLINE, ''))
+            csv_writer.writerow(raw_message)
+
+    print(f'{Color.BOLD}Warnings saved to: {Color.END}{Color.UNDERLINE}{OUTPUT_FILE_PATH}/warnings.tsv{Color.END}')
+
+    print(f'\nView messages in console?')
     view_messages = input('\nEnter "y" to view, or press enter to skip >> ').lower() in ['y', 'yes']
 
     if view_messages:

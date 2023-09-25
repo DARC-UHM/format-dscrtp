@@ -298,7 +298,7 @@ class AnnotationRow:
             else:
                 remark_string = 'size is estimated greatest length of individual in cm. Size estimations placed into size category bins'
         sampled_by = get_association(self.annotation, 'sampled-by')
-        if sampled_by:
+        if sampled_by and 'to_concept' in sampled_by.keys():
             if remark_string != NULL_VAL_STRING:
                 remark_string += f' | sampled by {sampled_by["to_concept"]}'
             else:
@@ -329,6 +329,8 @@ class AnnotationRow:
         if s1:
             primary = translate_substrate_code(s1['to_concept'])
             if not primary:
+                primary = translate_substrate_code(s1['link_value'])  # this is how the data is stored in old VARS
+            if not primary:
                 # flag warning
                 warning_messages.append([
                     self.columns['SampleID'],
@@ -352,7 +354,10 @@ class AnnotationRow:
         if len(s2_records) != 0:
             s2s_list = []
             for s2 in s2_records:  # remove duplicates
-                if s2['to_concept'] not in s2s_list:
+                if s2['to_concept'] == 'nil':
+                    # this is old VARS data, formatted as one record separated by semicolons
+                    s2s_list = s2['link_value'].split(';')
+                elif s2['to_concept'] not in s2s_list:
                     s2s_list.append(s2['to_concept'])
             s2s_list.sort(key=grain_size)
             for s2 in s2s_list:

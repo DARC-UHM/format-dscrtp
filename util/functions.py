@@ -81,6 +81,8 @@ def extract_time(json_object: Dict) -> datetime:
     :param Dict json_object: A json object with the time we want to sort by.
     :return datetime: A datetime object of the timestamp from the json object.
     """
+    if not json_object:
+        return None
     if '.' in json_object['recorded_timestamp']:
         timestamp = datetime.strptime(json_object['recorded_timestamp'], '%Y-%m-%dT%H:%M:%S.%fZ')
         if timestamp.microsecond >= 500000:
@@ -113,11 +115,17 @@ def add_meters(accuracy: str) -> str:
 
 def convert_username_to_name(vars_username: str) -> str:
     """
-    Converts format of VARS username: [FirstnameLastName] -> [Lastname, FirstName]
+    Converts format of VARS username: [FirstnameLastname] -> [Lastname, FirstName]
+    Assumes VARS usernames are formatted 'FirstnameLastname'
+    Some exceptions added for old VARS usernames
 
     :param str vars_username: VARS username, e.g. 'SarahBingo'.
     :return str: The converted name string, e.g. 'Bingo, Sarah'.
     """
+    if vars_username == 'christopherkelley':
+        return 'Kelly, Christopher'
+    if vars_username == 'janeculp':
+        return 'Culp, Jane'
     for i in range(1, len(vars_username)):
         if vars_username[i].isupper():
             return vars_username[i:] + ', ' + vars_username[0:i]
