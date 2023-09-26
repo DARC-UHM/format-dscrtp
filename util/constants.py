@@ -197,9 +197,9 @@ Suffixes and prefixes are additional descriptors added to a root. For example, '
 a root ('bed'), and a suffix ('mn'). These will be added together and the final translation will be 
 'sediment-covered bedrock with manganese crust'.
 """
-SUFFIXES = ['mn', 'pi', 'a', 't', 'po', 'hp']
+SUFFIXES = ['mn', 'pi', 'a', 'b', 't', 'po', 'hp']
 SUFFIXES_FORMS = ['led', 'cre', 'cha', 'cav', 'cra', 'bu', 'mo', 'ho', 'tr', 'du']
-PREFIXES = ['dik', 'fl', 'sc', 'tu', 'mu', 'ri', 'col', 'c', 'b', 'l', 'm']
+PREFIXES = ['dik', 'fl', 'sc', 'tu', 'mu', 'ri', 'col', 'c', 'l', 'm']
 SUFFIXES_DEAD = ['cn', 'spo', ' org']
 SUFFIXES_MAN = ['art', 'cem', 'fib', 'met', 'tra', 'ord', 'made', 'wre', 'pla']
 

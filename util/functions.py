@@ -139,8 +139,11 @@ def translate_substrate_code(code: str) -> str:
     :param str code: The VARS code of the substrate, e.g. 'peb'.
     :return str: The translated code, e.g. 'pebble'.
     """
+    code = code.strip()
     if code in SAMES:
         return code
+    if code == 'hp':  # condition for old VARS, where hp was not only a suffix
+        return 'hydrothermal precipitate'
     substrate_word_list = []
     r = ''
     man_or_forms = []

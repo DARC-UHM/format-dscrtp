@@ -69,6 +69,16 @@ class AnnotationRow:
                 self.annotation["observation_uuid"],
                 f'{Color.RED}No ancillary data found for this record{Color.END}'
             ])
+            self.columns['Latitude'] = NULL_VAL_INT
+            self.columns['Longitude'] = NULL_VAL_INT
+            self.columns['VerbatimLatitude'] = NULL_VAL_INT
+            self.columns['VerbatimLongitude'] = NULL_VAL_INT
+            self.columns['DepthInMeters'] = NULL_VAL_INT
+            self.columns['MinimumDepthInMeters'] = NULL_VAL_INT
+            self.columns['MaximumDepthInMeters'] = NULL_VAL_INT
+            self.columns['Temperature'] = NULL_VAL_INT
+            self.columns['Salinity'] = NULL_VAL_INT
+            self.columns['Oxygen'] = NULL_VAL_INT
             return
         if 'latitude' in self.annotation['ancillary_data'] and 'longitude' in self.annotation['ancillary_data']:
             self.columns['Latitude'] = round(self.annotation['ancillary_data']['latitude'], 8)
@@ -353,10 +363,12 @@ class AnnotationRow:
         s2_records = get_associations_list(self.annotation, 's2')
         if len(s2_records) != 0:
             s2s_list = []
+            failures = []
             for s2 in s2_records:  # remove duplicates
                 if s2['to_concept'] == 'nil':
                     # this is old VARS data, formatted as one record separated by semicolons
-                    s2s_list = s2['link_value'].split(';')
+                    s2s_list = s2['link_value'].replace(',', ';').replace('; ', ';').replace(';;', ';')\
+                        .replace(' ', ';').replace(':', ';').replace("'", ';').split(';')
                 elif s2['to_concept'] not in s2s_list:
                     s2s_list.append(s2['to_concept'])
             s2s_list.sort(key=grain_size)
@@ -364,12 +376,14 @@ class AnnotationRow:
                 s2_temp = translate_substrate_code(s2)
                 if s2_temp:
                     secondary.append(s2_temp)
+                else:
+                    failures.append(s2)
             if len(secondary) != len(s2s_list):
                 warning_messages.append([
                     self.columns['SampleID'],
                     self.annotation["concept"],
                     self.annotation["observation_uuid"],
-                    f'Could not parse a substrate code from list {Color.BOLD}{secondary}{Color.END}'
+                    f'Could not parse a substrate codes {Color.BOLD}{failures}{Color.END}'
                 ])
             self.columns['Habitat'] = self.columns['Habitat'] + f' / secondary: {"; ".join(secondary)}'
         habitat_comment = get_association(self.annotation, 'habitat-comment')
@@ -408,7 +422,8 @@ class AnnotationRow:
 
         :param list warning_messages: The list of warning messages to display at the end of the script.
         """
-        if 'depth_meters' in self.annotation['ancillary_data']:
+        if 'depth_meters' in self.annotation['ancillary_data'] \
+                and self.annotation['ancillary_data']['depth_meters'] != 0:
             self.columns['DepthInMeters'] = round(self.annotation['ancillary_data']['depth_meters'], 3)
         else:
             self.columns['DepthInMeters'] = NULL_VAL_INT
