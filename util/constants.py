@@ -172,6 +172,7 @@ SUB_CONCEPTS = {
     'spo': 'Porifera',
     'org': 'organism',
     ' org': 'organism',
+    'bi': 'organism',
     'art': 'artificial reef',
     'cem': 'cement',
     'fib': 'fiber object',
@@ -186,7 +187,7 @@ SUB_CONCEPTS = {
 
 # VARS shorthand for substrates
 ROOTS = ['sed', 'nodmn', 'peb', 'cob', 'bou', 'blk', 'bed', 'orgcn', 'orgal',
-         'orgrho', 'dead', 'man', 'rov', 'ven', 'org', 'tube']
+         'orgrho', 'dead', 'man', 'rov', 'ven', 'org', 'bi', 'tube']
 
 # VARS substrates that don't have a shorthand
 SAMES = ['organism', 'man-made trash', 'Animal-made tube', 'debris',
@@ -200,7 +201,7 @@ a root ('bed'), and a suffix ('mn'). These will be added together and the final 
 SUFFIXES = ['mn', 'pi', 'a', 'b', 't', 'po', 'hp']
 SUFFIXES_FORMS = ['led', 'cre', 'cha', 'cav', 'cra', 'bu', 'mo', 'ho', 'tr', 'du']
 PREFIXES = ['dik', 'fl', 'sc', 'tu', 'mu', 'ri', 'col', 'c', 'l', 'm']
-SUFFIXES_DEAD = ['cn', 'spo', ' org']
+SUFFIXES_DEAD = ['cn', 'spo', ' org', 'bi']
 SUFFIXES_MAN = ['art', 'cem', 'fib', 'met', 'tra', 'ord', 'made', 'wre', 'pla']
 
 ALL_AFFIXES = SUFFIXES + SUFFIXES_FORMS + PREFIXES + SUFFIXES_DEAD + SUFFIXES_MAN

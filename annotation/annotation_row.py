@@ -405,6 +405,13 @@ class AnnotationRow:
                     notes = get_association(self.annotation, 'observation notes')
                     if notes and 'dead' in notes['link_value']:
                         self.columns['Substrate'] += ' (dead)'
+                if upon['to_concept'] == 'orgcr':
+                    self.columns['Substrate'] = 'Crustacea'
+                    comment = get_association(self.annotation, 'comment')
+                    if comment:
+                        comment = comment['link_value'].split(';')[0].split(' ')
+                        if comment[0] == 'on':
+                            self.columns['Substrate'] = comment[1]
                 else:
                     self.columns['Substrate'] = upon['to_concept']
 
