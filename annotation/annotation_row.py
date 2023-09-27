@@ -238,30 +238,26 @@ class AnnotationRow:
         size_str = NULL_VAL_STRING
         size_category = get_association(self.annotation, 'size')
         if size_category:
-            size_str = size_category['to_concept']
-            # turns a 'size category' into a maximum and minimum size
-            match size_str:
-                case '0-10 cm':
-                    min_size = '0'
-                    max_size = '10'
-                case '10-30 cm':
-                    min_size = '10'
-                    max_size = '30'
-                case '30-50 cm':
-                    min_size = '30'
-                    max_size = '50'
-                case '50-100 cm':
-                    min_size = '50'
-                    max_size = '100'
-                case 'greater than 100 cm':
-                    min_size = '101'
-                case _:
-                    warning_messages.append([
-                        self.columns['SampleID'],
-                        self.annotation["concept"],
-                        self.annotation["observation_uuid"],
-                        f'String not recognized as an established size category: {Color.BOLD}"{size_str}"{Color.END}'
-                    ])
+            if size_category['to_concept'] != 'nil':
+                size_str = size_category['to_concept']
+            else:
+                # old VARS used 'link_value' instead of 'to_concept' :)
+                size_str = size_category['link_value']
+
+            if size_str == 'greater than 100 cm':
+                min_size = '101'
+            elif '-' in size_str and 'cm' in size_str:
+                # turn a 'size category' into a maximum and minimum size
+                sizes = size_str.replace(' ', '-').split('-')
+                min_size = sizes[0]
+                max_size = sizes[1]
+            else:
+                warning_messages.append([
+                    self.columns['SampleID'],
+                    self.annotation["concept"],
+                    self.annotation["observation_uuid"],
+                    f'String not recognized as an established size category: {Color.BOLD}"{size_str}"{Color.END}'
+                ])
         self.columns['VerbatimSize'] = size_str
         self.columns['MinimumSize'] = min_size
         self.columns['MaximumSize'] = max_size
@@ -394,7 +390,7 @@ class AnnotationRow:
         """
         Sets the 'Substrate' column if there is an 'upon' record in the annotation object.
         """
-        upon = get_association(self. annotation, 'upon')
+        upon = get_association(self.annotation, 'upon')
         self.columns['UponIsCreature'] = False
         if upon:
             subs = translate_substrate_code(upon['to_concept'])

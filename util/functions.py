@@ -240,16 +240,19 @@ def find_associated_taxa(report_records: list, concepts: Dict, warning_messages:
     """
     for i in range(len(report_records)):
         associate_record = report_records[i]
-        if associate_record[UPON_IS_CREATURE]:  # if the associate's 'upon' is indeed a creature
+        if associate_record[UPON_IS_CREATURE]:
+            # the associate's 'upon' is indeed a creature
             host_concept_name = associate_record[SUBSTRATE]  # VARS name for host
-            if host_concept_name in concepts:  # checks if host concept is in local concepts file
-                # the timestamp at which the associate was recorded
-                observation_time = get_date_and_time(associate_record)
+            if host_concept_name in concepts:
+                # host concept is in local concepts file
+                observation_time = get_date_and_time(associate_record)  # timestamp at which the associate was recorded
                 found = False
                 for j in range(i + 10, -1, -1):
-                    """ checks backward, looking for the most recent host w/ matching name. we start at i + 10 because 
-                        there can be multiple records with the exact same timestamp, and one of those records could be 
-                        the 'upon' """
+                    """ 
+                    Checks backward, looking for the most recent host w/ matching name. We start at i + 10 because 
+                    there can be multiple records with the exact same timestamp, and one of those records could be 
+                    the 'upon'
+                    """
                     # to catch index out of range exception
                     while j >= len(report_records):
                         j -= 1
