@@ -264,7 +264,7 @@ class TestAnnotationRow:
         warnings = []
         test_row = AnnotationRow(annotations[7])
         test_row.set_size(warnings)
-        assert test_row.columns['VerbatimSize'] == '5-1000000 cm'
+        assert test_row.columns['VerbatimSize'] == '51000000 cm'
         assert test_row.columns['MinimumSize'] == NULL_VAL_INT
         assert test_row.columns['MaximumSize'] == NULL_VAL_INT
         assert len(warnings) == 1

@@ -397,9 +397,16 @@ class AnnotationRow:
             if subs:
                 self.columns['Substrate'] = subs
             else:
-                # if the item in 'upon' is not in the substrate list, it must be upon another creature
-                self.columns['Substrate'] = upon['to_concept']
+                # the item in 'upon' is not in the substrate list, so it must be upon another creature
                 self.columns['UponIsCreature'] = True
+
+                if upon['to_concept'] == 'orgsp':
+                    self.columns['Substrate'] = 'Porifera'
+                    notes = get_association(self.annotation, 'observation notes')
+                    if notes and 'dead' in notes['link_value']:
+                        self.columns['Substrate'] += ' (dead)'
+                else:
+                    self.columns['Substrate'] = upon['to_concept']
 
     def set_id_ref(self):
         """

@@ -417,7 +417,7 @@ annotations = [
             {
                 "uuid": "8c46c0fc-28d9-47e6-9a62-94e36b3adb1e",
                 "link_name": "size",
-                "to_concept": "5-1000000 cm",  # to fail
+                "to_concept": "51000000 cm",  # to fail
                 "link_value": "nil",
                 "mime_type": "text/plain"
             },
