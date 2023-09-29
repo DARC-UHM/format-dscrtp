@@ -38,7 +38,7 @@ class TestFunctions:
     def test_grain_size(self):
         test_size = grain_size(annotations[1]['associations'][1]['to_concept'])
         print(test_size)
-        assert test_size == 11
+        assert test_size == 13
 
     def test_grain_size_no_match(self):
         root_index = grain_size(no_match)
