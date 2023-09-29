@@ -343,7 +343,7 @@ class AnnotationRow:
                     self.annotation["concept"],
                     self.annotation["observation_uuid"],
                     f'{Color.RED}Missing s1 or could not parse substrate code:{Color.END} '
-                    f'{Color.BOLD}{s1["to_concept"]}{Color.END}'
+                    f'{Color.BOLD}to_concept: {s1["to_concept"]}, link_value: {s1["link_value"]}{Color.END}'
                 ])
             else:
                 self.columns['Habitat'] = f'primarily: {primary}'
@@ -361,7 +361,7 @@ class AnnotationRow:
             s2s_list = []
             failures = []
             for s2 in s2_records:  # remove duplicates
-                if s2['to_concept'] == 'nil':
+                if s2['to_concept'] == 'nil' or s2['to_concept'] == 'self':
                     # this is old VARS data, formatted as one record separated by semicolons
                     s2s_list = s2['link_value'].replace(',', ';').replace('; ', ';').replace(';;', ';')\
                         .replace(' ', ';').replace(':', ';').replace("'", ';').split(';')
@@ -379,7 +379,7 @@ class AnnotationRow:
                     self.columns['SampleID'],
                     self.annotation["concept"],
                     self.annotation["observation_uuid"],
-                    f'Could not parse a substrate codes {Color.BOLD}{failures}{Color.END}'
+                    f'Could not parse s2 substrate codes {Color.BOLD}{failures}{Color.END}'
                 ])
             self.columns['Habitat'] = self.columns['Habitat'] + f' / secondary: {"; ".join(secondary)}'
         habitat_comment = get_association(self.annotation, 'habitat-comment')

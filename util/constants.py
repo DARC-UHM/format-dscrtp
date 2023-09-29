@@ -132,6 +132,7 @@ SUB_CONCEPTS = {
     'cob': 'cobble',
     'bou': 'boulder',
     'bed': 'bedrock',
+    'chi': 'chimney',
     'man': 'man-made',
     'dead': 'dead',
     'dik': 'dike rock formation of',
@@ -172,6 +173,7 @@ SUB_CONCEPTS = {
     'spo': 'Porifera',
     'org': 'organism',
     ' org': 'organism',
+    'orgsp': 'Porifera',
     'bi': 'organism',
     'art': 'artificial reef',
     'cem': 'cement',
@@ -182,16 +184,17 @@ SUB_CONCEPTS = {
     'made': 'object',
     'wre': 'wreck',
     'pla': 'plastic object',
-    'tube': 'Animal-made tube'
+    'tube': 'Animal-made tube',
+    'mid': 'midwater'
 }
 
 # VARS shorthand for substrates
-ROOTS = ['sed', 'nodmn', 'peb', 'cob', 'bou', 'blk', 'bed', 'orgcn', 'orgal',
-         'orgrho', 'dead', 'man', 'rov', 'ven', 'org', 'bi', 'tube']
+ROOTS = ['sed', 'nodmn', 'peb', 'cob', 'bou', 'blk', 'bed', 'chi', 'orgcn', 'orgal',
+         'orgrho', 'orgsp', 'dead', 'man', 'rov', 'ven', 'org', 'bi', 'tube', 'mid']
 
 # VARS substrates that don't have a shorthand
 SAMES = ['organism', 'man-made trash', 'Animal-made tube', 'debris',
-         'sediment', 'pebble', 'cobble', 'boulder', 'bedrock']
+         'sediment', 'pebble', 'cobble', 'boulder', 'bedrock', 'midwater', 'surface', 'chimney']
 
 """
 Suffixes and prefixes are additional descriptors added to a root. For example, 'scbedmn' consists of a prefix ('sc'), 
