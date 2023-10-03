@@ -329,7 +329,7 @@ class TestAnnotationRow:
         test_row.set_comments_and_sample()
         assert test_row.columns['OccurrenceComments'] == \
                'in water column on descent | another remark | size is estimated greatest length of individual in cm. ' \
-               'Size estimations placed into size category bins | sampled by manipulator'
+               'Size estimations placed into size category bins | comment: loose talus | sampled by manipulator'
 
     def test_set_cmecs_geo(self):
         test_row = AnnotationRow(annotations[1])

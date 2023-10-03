@@ -312,6 +312,23 @@ class AnnotationRow:
                 remark_string += ' | size is estimated greatest length of individual in cm. Size estimations placed into size category bins'
             else:
                 remark_string = 'size is estimated greatest length of individual in cm. Size estimations placed into size category bins'
+
+        # old VARS data
+        observation_notes = get_association(self.annotation, 'observation notes')
+        if observation_notes:
+            if remark_string != NULL_VAL_STRING:
+                remark_string += f' | notes: {observation_notes["link_value"]}'
+            else:
+                remark_string = f'notes: {observation_notes["link_value"]}'
+
+        # old VARS data
+        habitat_comment = get_association(self.annotation, 'habitat-comment')
+        if habitat_comment:
+            if remark_string != NULL_VAL_STRING:
+                remark_string += f' | comment: {habitat_comment["link_value"]}'
+            else:
+                remark_string = f'comment: {habitat_comment["link_value"]}'
+
         sampled_by = get_association(self.annotation, 'sampled-by')
         if sampled_by and 'to_concept' in sampled_by.keys():
             if remark_string != NULL_VAL_STRING:
