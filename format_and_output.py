@@ -211,7 +211,7 @@ for dive_name in sequence_names:
                     'vernacular_name': concept.vernacular_names
                 }
 
-            annotation_row.set_concept_info(concepts=concepts)  # populate annotation row object with concept info
+            annotation_row.set_concept_info(concepts=concepts, warning_messages=warning_messages)  # populate annotation row object with concept info
 
         # loop through timestamps and check if recorded_timestamps is in retrieved timestamp ranges
         media_type = 'still image'

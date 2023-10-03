@@ -142,11 +142,12 @@ class AnnotationRow:
         self.columns['DataProvider'] = dive_info['DataProvider']
         self.columns['DataContact'] = dive_info['DataContact']
 
-    def set_concept_info(self, concepts: dict):
+    def set_concept_info(self, concepts: dict, warning_messages: list):
         """
         Sets annotation's concept info from saved concept dict.
 
         :param dict concepts: Dictionary of all locally saved concepts.
+        :param list warning_messages: The list of warning messages to display at the end of the script.
         """
         concept_name = self.annotation['concept']
         scientific_name = concepts[concept_name]['scientific_name']
@@ -157,6 +158,14 @@ class AnnotationRow:
         self.columns['VernacularName'] = concepts[concept_name]['vernacular_name']
         self.columns['TaxonRank'] = concepts[concept_name]['taxon_rank']
         self.columns['AphiaID'] = aphia_id
+
+        if scientific_name == NULL_VAL_STRING:
+            warning_messages.append([
+                self.columns['SampleID'],
+                self.annotation["concept"],
+                self.annotation["observation_uuid"],
+                f'{Color.RED}Concept name {concept_name} is {NULL_VAL_STRING} (no WoRMS match found){Color.END}'
+            ])
 
         if self.columns['AphiaID'] != NULL_VAL_INT:
             self.columns['LifeScienceIdentifier'] = f'urn:lsid:marinespecies.org:taxname:{aphia_id}'

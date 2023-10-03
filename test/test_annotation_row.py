@@ -141,7 +141,7 @@ class TestAnnotationRow:
 
     def test_set_concept_info_no_descriptors(self):
         test_row = AnnotationRow(annotations[1])
-        test_row.set_concept_info(concepts)
+        test_row.set_concept_info(concepts, warning_messages=[])
         assert test_row.columns['ScientificName'] == 'Paralepididae'
         assert test_row.columns['VernacularName'] == 'barracudinas'
         assert test_row.columns['TaxonRank'] == 'Family'
@@ -166,7 +166,7 @@ class TestAnnotationRow:
 
     def test_set_concept_info_descriptors(self):
         test_row = AnnotationRow(annotations[3])
-        test_row.set_concept_info(concepts)
+        test_row.set_concept_info(concepts, warning_messages=[])
         assert test_row.columns['ScientificName'] == 'Demospongiae'
         assert test_row.columns['VernacularName'] == 'demosponges | horny sponges'
         assert test_row.columns['TaxonRank'] == 'Class'
