@@ -246,11 +246,12 @@ class AnnotationRow:
         max_size = NULL_VAL_INT
         size_str = NULL_VAL_STRING
         size_category = get_association(self.annotation, 'size')
+        old_size_category = get_association(self.annotation, 'length-centimeters')  # old VARS data
         if size_category:
             if size_category['to_concept'] != 'nil':
                 size_str = size_category['to_concept']
             else:
-                # old VARS used 'link_value' instead of 'to_concept' :)
+                # another old VARS used 'link_value' instead of 'to_concept' :)
                 size_str = size_category['link_value']
 
             if size_str == 'greater than 100 cm':
@@ -265,7 +266,20 @@ class AnnotationRow:
                     self.columns['SampleID'],
                     self.annotation["concept"],
                     self.annotation["observation_uuid"],
-                    f'String not recognized as an established size category: {Color.BOLD}"{size_str}"{Color.END}'
+                    f'Unable to parse size string: {Color.BOLD}"{size_str}"{Color.END}'
+                ])
+        elif old_size_category:
+            size_str = old_size_category['link_value']
+            if '-' in size_str and len(size_str.split('-')) == 2:
+                sizes = size_str.split('-')
+                min_size = sizes[0]
+                max_size = sizes[1]
+            else:
+                warning_messages.append([
+                    self.columns['SampleID'],
+                    self.annotation["concept"],
+                    self.annotation["observation_uuid"],
+                    f'Unable to parse size string: {Color.BOLD}"{size_str}"{Color.END}'
                 ])
         self.columns['VerbatimSize'] = size_str
         self.columns['MinimumSize'] = min_size
