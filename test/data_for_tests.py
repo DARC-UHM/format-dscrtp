@@ -633,6 +633,78 @@ annotations = [
             "temperature_celsius": 2.0179998874664307,
             "uuid": "b26af95a-7dac-42a9-8e62-e0adba9adc1e"
         }
+    },
+    # annotations[10]
+    {
+        "observation_uuid": "b8e6c95b-3846-41f9-706e-f8c1b905c91e",
+        "concept": "Plectranthias sp",
+        "observer": "Virginia Moriwake",
+        "observation_timestamp": "2016-03-12T00:03:32.963Z",
+        "video_reference_uuid": "9d48bd89-6830-4482-abf3-7ab5acb2abe9",
+        "imaged_moment_uuid": "8ef1c852-cf4b-4e7d-6f6e-f8c1b905c91e",
+        "timecode": "01:31:49:16",
+        "elapsed_time_millis": 0,
+        "recorded_timestamp": "2005-07-21T00:18:02Z",
+        "duration_millis": 0,
+        "activity": "stationary",
+        "associations": [
+            {
+                "uuid": "60f1afc8-65c3-4109-736e-f8c1b905c91e",
+                "link_name": "identity-certainty",
+                "to_concept": "self",
+                "link_value": "maybe; banded",
+                "mime_type": "text/plain"
+            },
+            {
+                "uuid": "6fb829a8-7c89-421f-756e-f8c1b905c91e",
+                "link_name": "slope",
+                "to_concept": "slp2-3",
+                "link_value": "nil",
+                "mime_type": "text/plain"
+            },
+            {
+                "uuid": "8c619257-b5c1-48a7-776e-f8c1b905c91e",
+                "link_name": "observation notes",
+                "to_concept": "self",
+                "link_value": "363;;",
+                "mime_type": "text/plain"
+            },
+            {
+                "uuid": "985b9fc8-3001-4538-746e-f8c1b905c91e",
+                "link_name": "photo-reference",
+                "to_concept": "self",
+                "link_value": "http://max5kn1.soest.hawaii.edu/imagearchive/SupplementalPhotos/P5photos/P5-653/P5-653-042.tif;P5-653-d3-13238a1.tif;P5-653-d3-13238a2.tif",
+                "mime_type": "text/plain"
+            },
+            {
+                "uuid": "d0c16531-488f-4e30-716e-f8c1b905c91e",
+                "link_name": "s1",
+                "to_concept": "bedl",
+                "link_value": "nil",
+                "mime_type": "text/plain"
+            },
+            {
+                "uuid": "dea99b18-9289-4ce5-766e-f8c1b905c91e",
+                "link_name": "rugosity",
+                "to_concept": "rs1-5",
+                "link_value": "nil",
+                "mime_type": "text/plain"
+            },
+            {
+                "uuid": "fe1e3d9f-b4e3-4885-726e-f8c1b905c91e",
+                "link_name": "habitat-comment",
+                "to_concept": "nil",
+                "link_value": "karstic",
+                "mime_type": "text/plain"
+            }
+        ],
+        "image_references": [],
+        "ancillary_data": {
+            "depth_meters": 364.2099914550781,
+            "latitude": -0.3766116666666666,
+            "longitude": -160.0200645,
+            "uuid": "f443328e-88a5-4b20-8762-c2c5b905c91e"
+        }
     }
 ]
 

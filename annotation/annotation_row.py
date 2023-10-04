@@ -550,8 +550,8 @@ class AnnotationRow:
         for image in images:
             image_paths.append(image['url'].replace(
                 'http://hurlstor.soest.hawaii.edu/imagearchive',
-                'https://hurlimage.soest.hawaii.edu'))
-
+                'https://hurlimage.soest.hawaii.edu')
+            )
         if len(image_paths) == 1:
             self.columns['ImageFilePath'] = image_paths[0]
         elif len(image_paths) > 1:
@@ -559,6 +559,23 @@ class AnnotationRow:
                 self.columns['ImageFilePath'] = image_paths[0]
             else:
                 self.columns['ImageFilePath'] = image_paths[1]
+
+        # for old VARS :)
+        photo_references = get_association(self.annotation, 'photo-reference')
+        if photo_references:
+            photo_references = photo_references['link_value'].split(';')
+            photo_references[0] = photo_references[0].replace('http://max5kn1.soest.hawaii.edu/imagearchive/', '')
+            path = photo_references[0].split("/")
+            path.pop()
+            path = f'https://hurlimage.soest.hawaii.edu/{"/".join(path)}'
+            photo_references[0] = f'https://hurlimage.soest.hawaii.edu/{photo_references[0]}'
+            for i in range(1, len(photo_references)):
+                photo_references[i] = f'{path}/{photo_references[i]}'
+            for image_path in photo_references:
+                if self.columns['ImageFilePath'] != NULL_VAL_STRING:
+                    self.columns['ImageFilePath'] += f' | {image_path}'
+                else:
+                    self.columns['ImageFilePath'] = image_path
 
         highlight_image = get_association(self.annotation, 'guide-photo')
         if highlight_image and (highlight_image['to_concept'] == '1 best' or highlight_image['to_concept'] == '2 good'):

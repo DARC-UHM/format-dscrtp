@@ -331,6 +331,13 @@ class TestAnnotationRow:
                'in water column on descent | another remark | size is estimated greatest length of individual in cm. ' \
                'Size estimations placed into size category bins | comment: loose talus | sampled by manipulator'
 
+    def test_set_comments_old_vars(self):
+        warnings = []
+        test_row = AnnotationRow(annotations[10])
+        test_row.set_size(warnings)
+        test_row.set_comments_and_sample()
+        assert test_row.columns['OccurrenceComments'] == 'notes: 363;; | comment: karstic'
+
     def test_set_cmecs_geo(self):
         test_row = AnnotationRow(annotations[1])
         test_row.set_cmecs_geo('get out of my swamp')
@@ -498,4 +505,10 @@ class TestAnnotationRow:
         test_row = AnnotationRow(annotations[9])
         test_row.set_image_paths()
         assert test_row.columns['ImageFilePath'] == 'https://hurlimage.soest.hawaii.edu/SupplementalPhotos/Hphotos/NA134photos/H1895/cam1_20211130145709.png'
+        assert test_row.columns['HighlightImageFilePath'] == NULL_VAL_STRING
+
+    def test_old_vars_image_paths(self):
+        test_row = AnnotationRow(annotations[10])
+        test_row.set_image_paths()
+        assert test_row.columns['ImageFilePath'] == 'https://hurlimage.soest.hawaii.edu/SupplementalPhotos/P5photos/P5-653/P5-653-042.tif | https://hurlimage.soest.hawaii.edu/SupplementalPhotos/P5photos/P5-653/P5-653-d3-13238a1.tif | https://hurlimage.soest.hawaii.edu/SupplementalPhotos/P5photos/P5-653/P5-653-d3-13238a2.tif'
         assert test_row.columns['HighlightImageFilePath'] == NULL_VAL_STRING
