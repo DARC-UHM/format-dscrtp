@@ -60,16 +60,16 @@ class TestFunctions:
         with pytest.raises(Exception):
             parse_datetime('fail')
 
-    def test_extract_time_no_micro(self):
-        date_time = extract_time(annotations[0])
+    def test_extract_recorded_datetime_no_micro(self):
+        date_time = extract_recorded_datetime(annotations[0])
         assert date_time == datetime(2014, 9, 5, 20, 6, 26)
 
-    def test_extract_time_round_up(self):
-        date_time = extract_time(annotations[1])
+    def test_extract_recorded_datetime_round_up(self):
+        date_time = extract_recorded_datetime(annotations[1])
         assert date_time == datetime(2014, 9, 5, 14, 37, 58)
 
-    def test_extract_time_round_down(self):
-        date_time = extract_time(annotations[2])
+    def test_extract_recorded_datetime_round_down(self):
+        date_time = extract_recorded_datetime(annotations[2])
         assert date_time == datetime(2014, 9, 20, 14, 13, 23)
 
     def test_extract_uuid(self):

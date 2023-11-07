@@ -74,7 +74,7 @@ def parse_datetime(timestamp: str) -> datetime:
     return datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%SZ')
 
 
-def extract_time(json_object: Dict) -> datetime:
+def extract_recorded_datetime(json_object: Dict) -> datetime:
     """
     Used to sort json objects by timestamp, given the json object.
 
