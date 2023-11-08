@@ -9,6 +9,7 @@ def main():
 
     sequence_name_rows = []
     sequence_name_inputs = []
+    sequence_name_index = [0]
 
     window = tk.Tk()
     window.title('Format Output')
@@ -27,10 +28,19 @@ def main():
     )
 
     def save_sequences():
-        sequence_name = sequence_name_inputs[0].get()
-        print(sequence_name)
+        for sequence_name_input in sequence_name_inputs:
+            if len(sequence_name_input.get()):
+                print(sequence_name_input.get())
 
     def add_sequence_name_entry():
+        # some funky use of pointers here
+        sequence_name_index[0] += 1
+        index = sequence_name_index[0]
+
+        def remove_entry(i):
+            sequence_name_rows[i].pack_forget()
+            sequence_name_inputs[i].delete(0, tk.END)
+
         # first sequence name entry
         sequence_name_rows.append(tk.Frame(
             master=sequence_name_frame
@@ -45,6 +55,7 @@ def main():
             text="x",
             width=1,
             height=1,
+            command=lambda: remove_entry(index)
         ).pack(side=tk.LEFT)
         sequence_name_rows[-1].pack()
 
@@ -56,6 +67,7 @@ def main():
         master=sequence_name_rows[0],
         width=20,
     ))
+    sequence_name_inputs[0].bind('<KeyRelease>', checknames)
     sequence_name_inputs[0].pack(side=tk.LEFT)
     tk.Button(
         master=sequence_name_rows[0],
