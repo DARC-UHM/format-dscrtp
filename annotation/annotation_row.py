@@ -462,7 +462,13 @@ class AnnotationRow:
         """
         identity_reference = get_association(self.annotation, 'identity-reference')
         if identity_reference:
-            self.columns['IdentityReference'] = int(identity_reference['link_value'])
+            if identity_reference['link_value'] == '':
+                self.columns['IdentityReference'] = -1
+                print(f'\n{Color.YELLOW}WARNING:{Color.END} '
+                      f'An identity-reference association exists for {self.annotation["concept"]} recorded at '
+                      f'{self.annotation["recorded_timestamp"]}, but it is empty\n')
+            else:
+                self.columns['IdentityReference'] = int(identity_reference['link_value'])
         else:
             self.columns['IdentityReference'] = -1
 
