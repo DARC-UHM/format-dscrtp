@@ -238,7 +238,7 @@ for dive_name in sequence_names:
         annotation_row.set_cmecs_geo(cmecs_geo=current_cmecs_geo_form)
         annotation_row.set_habitat(warning_messages=warning_messages)
         annotation_row.set_upon()
-        annotation_row.set_id_ref()
+        annotation_row.set_id_ref(warning_messages=warning_messages)
         annotation_row.set_image_paths()
 
         record = [annotation_row.columns[x] for x in HEADERS]  # convert to list

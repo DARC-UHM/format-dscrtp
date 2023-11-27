@@ -414,14 +414,25 @@ class TestAnnotationRow:
         assert test_row.columns['Substrate'] == NULL_VAL_STRING
 
     def test_set_id_ref(self):
+        warnings = []
         test_row = AnnotationRow(annotations[9])
-        test_row.set_id_ref()
+        test_row.set_id_ref(warnings)
         assert test_row.columns['IdentityReference'] == 51
+        assert len(warnings) == 0
 
     def test_set_id_ref_none(self):
+        warnings = []
         test_row = AnnotationRow(annotations[1])
-        test_row.set_id_ref()
+        test_row.set_id_ref(warnings)
         assert test_row.columns['IdentityReference'] == -1
+        assert len(warnings) == 0
+
+    def test_set_id_ref_blank(self):
+        warnings = []
+        test_row = AnnotationRow(annotations[10])
+        test_row.set_id_ref(warnings)
+        assert test_row.columns['IdentityReference'] == -1
+        assert len(warnings) == 1
 
     def test_set_depth(self):
         test_row = AnnotationRow(annotations[0])
