@@ -455,14 +455,23 @@ class AnnotationRow:
                 else:
                     self.columns['Substrate'] = upon['to_concept']
 
-    def set_id_ref(self):
+    def set_id_ref(self, warning_messages: list):
         """
         Sets the 'IdentityReference' column with the value pulled from the annotation object. ID reference is populated
         when there are multiple annotations with the exact same animal.
         """
         identity_reference = get_association(self.annotation, 'identity-reference')
         if identity_reference:
-            self.columns['IdentityReference'] = int(identity_reference['link_value'])
+            if identity_reference['link_value'] == '':
+                self.columns['IdentityReference'] = -1
+                warning_messages.append([
+                    self.columns['SampleID'],
+                    self.annotation["concept"],
+                    self.annotation["observation_uuid"],
+                    f'{Color.YELLOW}An identity-reference association exists for this record, but it is empty{Color.END}'
+                ])
+            else:
+                self.columns['IdentityReference'] = int(identity_reference['link_value'])
         else:
             self.columns['IdentityReference'] = -1
 

@@ -696,6 +696,13 @@ annotations = [
                 "to_concept": "nil",
                 "link_value": "karstic",
                 "mime_type": "text/plain"
+            },
+            {
+                "uuid": "8fd64fc9-c9f0-493d-7c6f-9f136c3adb1e",
+                "link_name": "identity-reference",
+                "to_concept": "self",
+                "link_value": "",
+                "mime_type": "text/plain"
             }
         ],
         "image_references": [],
