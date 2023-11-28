@@ -112,15 +112,19 @@ class ConceptHandler:
                 print(f'Unable to find record for {temp_name.split("/")[0]}')
 
             # the second concept (eg Pennatula)
-            vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/{temp_name.split("/")[1]}')
-            if vars_tax_res.status_code == 200:
-                vars_tree = vars_tax_res.json()['children'][0]['children'][0]['children'][0]['children'][0]
-                while 'children' in vars_tree.keys():
-                    # get to the bottom, filling flattened tree
-                    concept2_flat_tree[vars_tree['rank']] = vars_tree['name']
-                    vars_tree = vars_tree['children'][0]
+            if temp_name.split("/")[1] == 'n genus':
+                # if the second concept is 'n genus', just use the first concept
+                concept2_flat_tree = concept1_flat_tree
             else:
-                print(f'Unable to find record for {temp_name.split("/")[1]}')
+                vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/{temp_name.split("/")[1]}')
+                if vars_tax_res.status_code == 200:
+                    vars_tree = vars_tax_res.json()['children'][0]['children'][0]['children'][0]['children'][0]
+                    while 'children' in vars_tree.keys():
+                        # get to the bottom, filling flattened tree
+                        concept2_flat_tree[vars_tree['rank']] = vars_tree['name']
+                        vars_tree = vars_tree['children'][0]
+                else:
+                    print(f'Unable to find record for {temp_name.split("/")[1]}')
 
             match = False
             for key in ['subspecies', 'species', 'subgenus', 'genus', 'subfamily', 'family', 'suborder',
