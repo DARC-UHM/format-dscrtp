@@ -210,24 +210,24 @@ class ConceptHandler:
 
         :param Dict json_record: The record to check.
         """
-        if json_record['status'] == 'accepted':
+        if json_record['status'] == 'accepted' or json_record['status'] == 'uncertain':
             print(f'{Color.GREEN}{" ✓" : <15}{Color.END}', end='')
             sys.stdout.flush()
             self.found_worms_match = True
             self.concept.load_from_record(json_record)
         else:
-            print(f'{Color.RED}Unaccepted{Color.END}')
+            print(f'{Color.RED}{json_record["status"]}{Color.END}')
             self.unaccepted_names.append(json_record['scientificname'])
-            """
-            There is at least one case in WoRMS where the record is unaccepted, but the "accepted name" is the same as
-            the current scientific name and the "valid aphia ID" is the same as the current aphia ID: 
-            https://www.marinespecies.org/rest/AphiaRecordsByName/Acroechinoidea
-            
-            In this case, we'll just go with the parent
-            """
             if json_record['valid_name'] == json_record['scientificname']:
+                """
+                There is at least one case in WoRMS where the record is unaccepted, but the "accepted name" is the same 
+                as the current scientific name and the "valid aphia ID" is the same as the current aphia ID: 
+                https://www.marinespecies.org/rest/AphiaRecordsByName/Acroechinoidea
+
+                In this case, we'll just go with the parent
+                """
                 self.find_parent()
-                self.fetch_worms()
+                self.fetch_worms_aphia_record()
             else:
                 print(f"{Color.BOLD}%-40s %-35s{Color.END}" % ('', json_record['valid_name']), end='')
                 sys.stdout.flush()
