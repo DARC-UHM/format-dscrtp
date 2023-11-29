@@ -210,32 +210,51 @@ class ConceptHandler:
 
         :param Dict json_record: The record to check.
         """
-        if json_record['status'] == 'accepted' or json_record['status'] == 'uncertain':
+
+        def fetch_valid_name_record():
+            print(f"{Color.BOLD}%-40s %-35s{Color.END}" % ('', json_record['valid_name']), end='')
+            sys.stdout.flush()
+            req = requests.get('https://www.marinespecies.org/rest/AphiaRecordsByName/' +
+                               json_record['valid_name'] + '?like=false&marine_only=true&offset=1')
+            if req.status_code == 200:
+                json_records = req.json()
+                self.find_accepted_record(json_records, json_record['valid_name'])
+            else:
+                print(f'{Color.RED}{"No match" : <15}{Color.END}')
+
+        if json_record['status'] == 'accepted':
+            # status is accepted, use this record
             print(f'{Color.GREEN}{" ✓" : <15}{Color.END}', end='')
             sys.stdout.flush()
             self.found_worms_match = True
             self.concept.load_from_record(json_record)
-        else:
-            print(f'{Color.RED}{json_record["status"]}{Color.END}')
+        elif json_record['status'] == 'unaccepted':
+            # status is unaccepted
+            print(f'{Color.RED}Unaccepted{Color.END}')
             self.unaccepted_names.append(json_record['scientificname'])
             if json_record['valid_name'] == json_record['scientificname']:
-                """
-                There is at least one case in WoRMS where the record is unaccepted, but the "accepted name" is the same 
-                as the current scientific name and the "valid aphia ID" is the same as the current aphia ID: 
-                https://www.marinespecies.org/rest/AphiaRecordsByName/Acroechinoidea
-
-                In this case, we'll just go with the parent
-                """
+                # There is at least one case in WoRMS where the record is unaccepted, but the "accepted name" is the
+                # same as the current scientific name and the "valid aphia ID" is the same as the current aphia ID:
+                # https://www.marinespecies.org/rest/AphiaRecordsByName/Acroechinoidea
+                # In this case, we just go with the parent
                 self.find_parent()
                 self.fetch_worms_aphia_record()
             else:
-                print(f"{Color.BOLD}%-40s %-35s{Color.END}" % ('', json_record['valid_name']), end='')
+                # fetch the valid name record
+                fetch_valid_name_record()
+        else:
+            # status is something other than accepted or unaccepted ('uncertain', 'alternate representation', etc)
+            if json_record['valid_name'] == json_record['scientificname']:
+                # valid name is the same as the current scientific name, just use this record
+                print(f'{Color.GREEN}{" ✓" : <15}{Color.END}', end='')
                 sys.stdout.flush()
-                req = requests.get('https://www.marinespecies.org/rest/AphiaRecordsByName/' + json_record['valid_name'] +
-                                  '?like=false&marine_only=true&offset=1')
-                if req.status_code == 200:
-                    json_records = req.json()
-                    self.find_accepted_record(json_records, json_record['valid_name'])
+                self.found_worms_match = True
+                self.concept.load_from_record(json_record)
+            else:
+                # valid name is different from the current scientific name, fetch the valid name record
+                print(f'{Color.YELLOW}{json_record["status"]}{Color.END}')
+                self.unaccepted_names.append(json_record['scientificname'])
+                fetch_valid_name_record()
 
     def fetch_worms_taxon_tree(self):
         """
