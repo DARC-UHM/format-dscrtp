@@ -199,6 +199,34 @@ class TestConceptHandler:
         assert test_handler.concept.taxon_rank == 'Class'
 
     @patch('concept.concept_handler.requests.get', side_effect=mocked_requests_get)
+    def test_check_status_other_same_valid_name(self, mock_get):
+        test_handler = ConceptHandler(Concept('Demospongiae'))
+        test_handler.check_status({
+            'status': 'abc123',
+            'AphiaID': 42,
+            'scientificname': 'Demospongiae',
+            'rank': 'Class',
+            'valid_name': 'Demospongiae',
+            'authority': None
+        })
+        assert test_handler.found_worms_match is True
+        assert test_handler.concept.aphia_id == 42
+        assert test_handler.concept.scientific_name == 'Demospongiae'
+        assert test_handler.concept.taxon_rank == 'Class'
+
+    @patch('concept.concept_handler.requests.get', side_effect=mocked_requests_get)
+    def test_check_status_other_different_valid_name(self, mock_get):
+        test_handler = ConceptHandler(Concept('test'))
+        test_handler.check_status({
+            'status': 'abc123', 'scientificname': 'test', 'valid_name': 'Demospongiae'
+        })
+        assert test_handler.found_worms_match is True
+        assert test_handler.unaccepted_names == ['test']
+        assert test_handler.concept.aphia_id == 164811
+        assert test_handler.concept.scientific_name == 'Demospongiae'
+        assert test_handler.concept.taxon_rank == 'Class'
+
+    @patch('concept.concept_handler.requests.get', side_effect=mocked_requests_get)
     def test_fetch_worms_taxon_tree(self, mock_get):
         test_concept = Concept('Demospongiae')
         test_handler = ConceptHandler(test_concept)
