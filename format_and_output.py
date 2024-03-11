@@ -33,11 +33,11 @@ to enter this information at runtime. If you don't want to use the hardcoded val
 code. """
 
 # the name of the output file without the .tsv extension, e.g. 'NA134'
-OUTPUT_FILE_NAME = 'test'
+# OUTPUT_FILE_NAME = 'test'
 # path where you want the output file to be saved, e.g. '/Volumes/maxarray2/varsadditional/AnnotationExtracts'
-OUTPUT_FILE_PATH = '/Users/darc/Desktop'
+# OUTPUT_FILE_PATH = '/Users/darc/Desktop'
 # path to a csv of the sequence names, e.g. '/Users/darc/Documents/GitHub/Format-Output/reference/test_sequences.csv'
-SEQUENCE_NAMES_PATH = '/Users/darc/Documents/Github/Format-Output/reference/test_sequences.csv'
+# SEQUENCE_NAMES_PATH = '/Users/darc/Documents/Github/Format-Output/reference/test_sequences.csv'
 
 """##################################################################################################################"""
 
