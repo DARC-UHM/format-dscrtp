@@ -77,14 +77,14 @@ with open('reference/Dives.csv', 'r', encoding='utf-8') as dive_csv:
     for row in reader:
         dive_info.append(row)
 
-# Decides whether to load or overwrite concepts
-load_concepts = input(Messages.LOAD_CONCEPTS_PROMPT).lower() in ['y', 'yes']
-
-concepts = {}
-
 output_file_name = OUTPUT_FILE_NAME or input('Name of output file (without the .tsv file extension: ')
 output_file_path = OUTPUT_FILE_PATH or input('Path to folder of output files: ')
 sequence_names_path = SEQUENCE_NAMES_PATH or input("Path to a list of sequence names: ")
+
+# Decide whether to load or overwrite concepts
+load_concepts = input(Messages.LOAD_CONCEPTS_PROMPT).lower() in ['y', 'yes']
+
+concepts = {}
 
 if load_concepts:
     try:
