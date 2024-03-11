@@ -20,7 +20,7 @@ _Requires Python ≥ 3.9_
 
 1. Clone this repository.
 2. Run `pip3 install -r requirements.txt`.
-3. From the base directory run `python3 format_and_worms.py` Note: the script must be run from the same directory that contains `references/Dives.csv`.
+3. From the base directory run `python3 format_and_output.py` Note: the script must be run from the same directory that contains `references/Dives.csv`.
 4. The script will prompt `Should the program load previously encountered concept names from a saved file for a faster runtime?
 (Y: Use the file; N: Use WoRMS and overwrite the file)`. If this is your first time running the script, no matter what you enter here, the script will use WoRMS to download current taxa information. This will take about 20 minutes, depending on the number of records to be processed. If you have run the script before, you can enter `y` to skip this process.
 5. The script will then prompt `Name of output file (without the .tsv file extension):`. Enter any name.

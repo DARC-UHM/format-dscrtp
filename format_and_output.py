@@ -82,6 +82,10 @@ load_concepts = input(Messages.LOAD_CONCEPTS_PROMPT).lower() in ['y', 'yes']
 
 concepts = {}
 
+output_file_name = OUTPUT_FILE_NAME or input('Name of output file (without the .tsv file extension: ')
+output_file_path = OUTPUT_FILE_PATH or input('Path to folder of output files: ')
+sequence_names_path = SEQUENCE_NAMES_PATH or input("Path to a list of sequence names: ")
+
 if load_concepts:
     try:
         os.chdir(save_folder)
@@ -89,10 +93,6 @@ if load_concepts:
             concepts = json.load(file)
     except FileNotFoundError:
         print('No concepts file found, using WoRMS instead.')
-
-output_file_name = OUTPUT_FILE_NAME or input('Name of output file (without the .tsv file extension: ')
-output_file_path = OUTPUT_FILE_PATH or input('Path to folder of output files: ')
-sequence_names_path = SEQUENCE_NAMES_PATH or input("Path to a list of sequence names: ")
 
 sequence_names = []  # list of video sequences numbers to query VARS API
 

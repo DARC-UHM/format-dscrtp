@@ -533,8 +533,8 @@ class AnnotationRow:
 
     def set_oxygen(self, warning_messages: list):
         """
-        Converts the oxygen data from the annotation object to mL/L and populates the 'Oxygen' column. Adds a warning
-        message if oxygen data is missing.
+        Populates the 'Oxygen' column with data from the annotation object. Adds a warning message if oxygen data is
+        missing.
 
         :param list warning_messages: The list of warning messages to display at the end of the script.
         """
