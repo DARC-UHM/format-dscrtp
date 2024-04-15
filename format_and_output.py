@@ -244,6 +244,9 @@ for dive_name in sequence_names:
         record = [annotation_row.columns[x] for x in HEADERS]  # convert to list
         report_records.append(record)  # append annotation to a list of all annotations from this dive
 
+    # find associates and hosts
+    find_associated_taxa(report_records=report_records, concepts=concepts, warning_messages=warning_messages)
+
     # remove duplicates (ie records with matching id reference numbers)
     dupes_removed = collapse_id_records(report_records=report_records)
 
@@ -252,9 +255,6 @@ for dive_name in sequence_names:
         sys.stdout.flush()
     else:
         print(f'\n{str(dupes_removed)} duplicate records removed')
-
-    # find associates and hosts
-    find_associated_taxa(report_records=report_records, concepts=concepts, warning_messages=warning_messages)
 
     # translate substrate (upon) names - this must be done after finding the associated taxa (relies on concept name)
     for i in range(len(report_records)):

@@ -257,10 +257,10 @@ def find_associated_taxa(report_records: list, concepts: Dict, warning_messages:
                     while j >= len(report_records):
                         j -= 1
                     host_record = report_records[j]
-
-                    if i == j or j > i and get_date_and_time(host_record) != observation_time:
+                    host_time = get_date_and_time(host_record)
+                    if i == j or host_time > observation_time:
+                        # host record won't be recorded after associate record, so ignore this record
                         # i == j: record shouldn't be associated with itself, ignore
-                        # other bit: host record won't be recorded after associate record, so ignore this record
                         pass
                     elif host_record[SAMPLE_ID][:-9] != associate_record[SAMPLE_ID][:-9]:
                         # dive names don't match, stop the search
@@ -268,7 +268,6 @@ def find_associated_taxa(report_records: list, concepts: Dict, warning_messages:
                     else:
                         if host_record[VARS_CONCEPT_NAME] == host_concept_name:
                             # the host record's name is equal to the host concept name (associate's 'upon' name)
-                            upon_time = get_date_and_time(host_record)
                             if host_record[ASSOCIATED_TAXA] == NULL_VAL_STRING:
                                 # if the host's 'associated taxa' field is blank, add the associate's concept name
                                 host_record[ASSOCIATED_TAXA] = associate_record[COMBINED_NAME_ID]
@@ -280,7 +279,7 @@ def find_associated_taxa(report_records: list, concepts: Dict, warning_messages:
                                 host_record[OCCURRENCE_COMMENTS] = 'associate touching host'
                             elif 'associate touching host' not in host_record[OCCURRENCE_COMMENTS]:
                                 host_record[OCCURRENCE_COMMENTS] += ' | associate touching host'
-                            time_diff = observation_time - upon_time
+                            time_diff = observation_time - host_time
                             if time_diff.seconds > 300:
                                 # flag warning
                                 warning_messages.append([
