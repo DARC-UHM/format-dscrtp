@@ -58,7 +58,8 @@ class AnnotationRow:
 
     def set_ancillary_data(self, warning_messages: list):
         """
-        Sets ancillary data from annotation object. Adds a warning message if ancillary data or lat/long data is missing.
+        Sets ancillary data from annotation object. Adds a warning message if ancillary data or lat/long data is
+        missing.
 
         :param list warning_messages: The list of warning messages to display at the end of the script.
         """
@@ -119,7 +120,7 @@ class AnnotationRow:
         """
         self.columns['Citation'] = dive_info['Citation'] if dive_info['Citation'] != NULL_VAL_STRING else ''
         self.columns['Repository'] = dive_info['DataProvider'].split(';')[0] + \
-                                     ' | University of Hawaii Deep-sea Animal Research Center'
+            ' | University of Hawaii Deep-sea Animal Research Center'
         self.columns['Locality'] = dive_info['Locality'].replace(',', ' |')
         self.columns['Ocean'] = dive_info['Ocean']
         self.columns['LargeMarineEcosystem'] = dive_info['LargeMarineEcosystem']
@@ -300,7 +301,7 @@ class AnnotationRow:
                     self.columns['SampleID'],
                     self.annotation["concept"],
                     self.annotation["observation_uuid"],
-                    f'Dead animal reported'
+                    'Dead animal reported',
                 ])
                 self.columns['Condition'] = 'Dead'
             else:
@@ -323,9 +324,11 @@ class AnnotationRow:
             remark_string = ' | '.join(remark_list)
         if self.columns['VerbatimSize'] != NULL_VAL_STRING:
             if remark_string != NULL_VAL_STRING:
-                remark_string += ' | size is estimated greatest length of individual in cm. Size estimations placed into size category bins'
+                remark_string += ' | size is estimated greatest length of individual in cm.' \
+                                 ' Size estimations placed into size category bins'
             else:
-                remark_string = 'size is estimated greatest length of individual in cm. Size estimations placed into size category bins'
+                remark_string = 'size is estimated greatest length of individual in cm.' \
+                                ' Size estimations placed into size category bins'
 
         # old VARS data
         observation_notes = get_association(self.annotation, 'observation notes')
@@ -468,7 +471,7 @@ class AnnotationRow:
                     self.columns['SampleID'],
                     self.annotation["concept"],
                     self.annotation["observation_uuid"],
-                    f'{Color.YELLOW}An identity-reference association exists for this record, but it is empty{Color.END}'
+                    f'{Color.YELLOW}An identity-reference exists for this record, but it is empty{Color.END}'
                 ])
             else:
                 self.columns['IdentityReference'] = int(identity_reference['link_value'])

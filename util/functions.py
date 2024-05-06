@@ -3,7 +3,7 @@ This file contains functions that are used throughout the formatting process and
 """
 
 from datetime import datetime, timedelta
-from typing import Dict
+from typing import Dict, Optional
 
 from util.constants import *
 from util.terminal_output import Color
@@ -74,7 +74,7 @@ def parse_datetime(timestamp: str) -> datetime:
     return datetime.strptime(timestamp, '%Y-%m-%dT%H:%M:%SZ')
 
 
-def extract_time(json_object: Dict) -> datetime:
+def extract_time(json_object: Dict) -> Optional[datetime]:
     """
     Used to sort json objects by timestamp, given the json object.
 

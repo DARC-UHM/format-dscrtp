@@ -1,4 +1,5 @@
-[![Build Status](https://github.com/DARC-UHM/Format-Output/actions/workflows/python-app.yml/badge.svg)](https://github.com/DARC-UHM/Format-Output/actions/workflows/python-app.yml)
+[![Tests Status](https://darc-uhm.github.io/format-dscrtp/junit/junit.svg)](https://darc-uhm.github.io/format-dscrtp/junit/report.html)
+[![Coverage Status](https://darc-uhm.github.io/format-dscrtp/coverage/coverage.svg)](https://darc-uhm.github.io/format-dscrtp/coverage/)
 
 ### Overview
 

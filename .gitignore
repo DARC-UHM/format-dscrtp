@@ -4,9 +4,12 @@
 .idea
 
 # Generated files
-__pycache__
+__pycache__/
+.pytest_cache/
 *.pyc
-.pytest_cache
+
+# Tests and coverage
+reports/
+.coverage
 
 .venv
-
