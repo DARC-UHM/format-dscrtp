@@ -1,5 +1,6 @@
 [![Tests Status](https://darc-uhm.github.io/format-dscrtp/junit/junit.svg)](https://darc-uhm.github.io/format-dscrtp/junit/report.html)
 [![Coverage Status](https://darc-uhm.github.io/format-dscrtp/coverage/coverage.svg)](https://darc-uhm.github.io/format-dscrtp/coverage/)
+[![Issues](https://img.shields.io/github/issues/darc-uhm/format-dscrtp)](https://github.com/DARC-UHM/format-dscrtp/issues)
 
 ### Overview
 
