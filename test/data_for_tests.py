@@ -1590,7 +1590,7 @@ concepts = {
 
 # json responses for request tests
 
-vars_concept_base_url = 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/'
+vars_concept_base_url = 'http://hurlstor.soest.hawaii.edu:8083/v1/concept/'
 
 vars_responses = {
     "Pennatulacea": {

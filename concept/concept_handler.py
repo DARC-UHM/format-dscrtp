@@ -89,7 +89,7 @@ class ConceptHandler:
     def find_parent(self):
         """
         Gets concept's parent from VARS kb:
-        http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/[VARS_CONCEPT_NAME]
+        http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/[VARS_CONCEPT_NAME]
         """
         parent = NULL_VAL_STRING
         temp_name = self.concept.concept_name
@@ -100,7 +100,7 @@ class ConceptHandler:
             concept2_flat_tree = {}
 
             # the first concept (eg Ptilella)
-            vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/{temp_name.split("/")[0]}')
+            vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/{temp_name.split("/")[0]}')
             if vars_tax_res.status_code == 200:
                 # this get us to kingdom
                 vars_tree = vars_tax_res.json()['children'][0]['children'][0]['children'][0]['children'][0]
@@ -116,7 +116,7 @@ class ConceptHandler:
                 # if the second concept is 'n genus', just use the first concept
                 concept2_flat_tree = concept1_flat_tree
             else:
-                vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/{temp_name.split("/")[1]}')
+                vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/{temp_name.split("/")[1]}')
                 if vars_tax_res.status_code == 200:
                     vars_tree = vars_tax_res.json()['children'][0]['children'][0]['children'][0]['children'][0]
                     while 'children' in vars_tree.keys():
@@ -137,7 +137,7 @@ class ConceptHandler:
                 print(f'Unable to find common parent for {self.concept.concept_name}')
 
         else:
-            vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/{temp_name}')
+            vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/{temp_name}')
             if vars_tax_res.status_code == 200:
                 # this get us to kingdom
                 vars_tree = vars_tax_res.json()['children'][0]['children'][0]['children'][0]['children'][0]
@@ -154,7 +154,7 @@ class ConceptHandler:
     def find_accepted_record(self, json_records: list, concept_words: list):
         """
         Finds matching record in API query from WoRMS:
-        http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/[VARS_CONCEPT_NAME]
+        http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/[VARS_CONCEPT_NAME]
 
         :param list json_records: A list of JSON objects returned by WoRMS that match the given concept name.
         :param list concept_words: The words we should use to query WoRMS.
@@ -174,7 +174,7 @@ class ConceptHandler:
             self.check_status(json_records[0])
         else:
             # there are multiple records - we need to ping vars for phylum and find the record that matches
-            vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/{"%20".join(concept_words)}')
+            vars_tax_res = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/{"%20".join(concept_words)}')
             if vars_tax_res.status_code == 200:
                 # this get us to kingdom
                 vars_tree = vars_tax_res.json()['children'][0]['children'][0]['children'][0]['children'][0]
@@ -301,7 +301,7 @@ class ConceptHandler:
     def fetch_vars_synonyms(self, warning_messages: list):
         """
         Fetches concept info from VARS kb:
-        http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/[VARS_CONCEPT_NAME]
+        http://hurlstor.soest.hawaii.edu:8083/v1/concept/[VARS_CONCEPT_NAME]
 
         Gets synonyms and checks if concept name is an alternate (old) name. If it is, query WoRMS again.
 
@@ -313,7 +313,7 @@ class ConceptHandler:
         if '/' in temp_name:
             temp_name = ' '.join(self.concept.concept_words)  # use the parent we got earlier
         nicknames = []
-        req = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/{temp_name.replace(" ", "%20")}')
+        req = requests.get(f'http://hurlstor.soest.hawaii.edu:8083/v1/concept/{temp_name.replace(" ", "%20")}')
         if req.status_code == 200:
             json_obj = req.json()
             if self.concept.concept_name in json_obj['alternateNames']:
