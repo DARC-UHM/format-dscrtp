@@ -22,26 +22,26 @@ class MockResponse:
         match self.req_url:
             case 'NO_MATCH':
                 return {}
-            case 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/Pennatulacea':
+            case 'http://hurlstor.soest.hawaii.edu:8083/v1/concept/Pennatulacea':
                 return vars_responses['Pennatulacea']
-            case 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/Demospongiae':
+            case 'http://hurlstor.soest.hawaii.edu:8083/v1/concept/Demospongiae':
                 return vars_responses['Demospongiae']
-            case 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/Actinopterygii':
+            case 'http://hurlstor.soest.hawaii.edu:8083/v1/concept/Actinopterygii':
                 return vars_responses['Actinopterygii']
             case 'https://www.marinespecies.org/rest/AphiaRecordsByName/Antipatharia?like=false&marine_only=true&offset=1':
                 return worms_responses['Antipatharia']
             case 'https://www.marinespecies.org/rest/AphiaRecordsByName/Demospongiae?like=false&marine_only=true&offset=1':
                 return worms_responses['Demospongiae']
-            case 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/Demospongiae' | \
-                 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/Demospongiae cf':
+            case 'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/Demospongiae' | \
+                 'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/Demospongiae cf':
                 return vars_responses['Demospongiae phylogeny']
-            case 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/Pennatula':
+            case 'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/Pennatula':
                 return vars_responses['Pennatula phylogeny']
-            case 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/Ptilella':
+            case 'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/Ptilella':
                 return vars_responses['Ptilella phylogeny']
             case 'https://www.marinespecies.org/rest/AphiaRecordsByName/Stolonifera?like=false&marine_only=true&offset=1':
                 return worms_responses['Stolonifera']
-            case 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/Stolonifera':
+            case 'http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/Stolonifera':
                 return vars_responses['Stolonifera phylogeny']
             case 'https://www.marinespecies.org/rest/AphiaRecordsByName/Malacalcyonacea?like=false&marine_only=true&offset=1':
                 return worms_responses['Malacalcyonacea']
@@ -51,8 +51,8 @@ class MockResponse:
                 return worms_responses['Demospongiae vernaculars']
             case 'https://www.marinespecies.org/rest/AphiaVernacularsByAphiaID/10314':
                 return worms_responses['Ophidiiformes vernaculars']
-            case 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/Plexauridae%20yellow' | \
-                 'http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/Paramuriceidae%20yellow':
+            case 'http://hurlstor.soest.hawaii.edu:8083/v1/concept/Plexauridae%20yellow' | \
+                 'http://hurlstor.soest.hawaii.edu:8083/v1/concept/Paramuriceidae%20yellow':
                 return vars_responses['Plexauridae yellow']
             case 'https://www.marinespecies.org/rest/AphiaRecordsByName/Plexauridae?like=false&marine_only=true&offset=1':
                 return worms_responses['Plexauridae']
@@ -78,8 +78,8 @@ class TestConceptHandler:
         assert res3.ok
 
     def test_vars_endpoints(self):
-        res1 = requests.get('http://hurlstor.soest.hawaii.edu:8083/kb/v1/phylogeny/up/Demospongiae')
-        res2 = requests.get('http://hurlstor.soest.hawaii.edu:8083/kb/v1/concept/Demospongiae')
+        res1 = requests.get('http://hurlstor.soest.hawaii.edu:8083/v1/phylogeny/up/Demospongiae')
+        res2 = requests.get('http://hurlstor.soest.hawaii.edu:8083/v1/concept/Demospongiae')
         assert res1.ok
         assert res2.ok
     """
