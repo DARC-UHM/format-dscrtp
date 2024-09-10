@@ -26,9 +26,10 @@ SUBSTRATE = 72
 CMECS_GEO_FORM = 73
 IMAGE_PATH = 78
 HIGHLIGHT_IMAGE = 79
-IDENTITY_REF = 88
-UPON_IS_CREATURE = 89
-VARS_CONCEPT_NAME = 90
+BOUNDING_BOX_ID = 88
+IDENTITY_REF = 89
+UPON_IS_CREATURE = 90
+VARS_CONCEPT_NAME = 91
 
 # column headers for output file
 HEADERS = [
@@ -120,9 +121,10 @@ HEADERS = [
     'Reporter',  # 85
     'ReporterEmail',  # 86
     'ReporterComments',  # 87
-    'IdentityReference',  # 88 - All columns here and below are for reference and are not output to the final .tsv
-    'UponIsCreature',  # 89
-    'VARSConceptName'  # 90
+    'BoundingBoxID',  # 88
+    'IdentityReference',  # 89 - All columns here and below are for reference and are not output to the final .tsv
+    'UponIsCreature',  # 90
+    'VARSConceptName'  # 91
 ]
 
 # Substrate code translations and grain size order

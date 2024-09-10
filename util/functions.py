@@ -211,7 +211,7 @@ def collapse_id_records(report_records: list) -> int:
                 for j in [MIN_SIZE, MAX_SIZE]:
                     if identity_references[id_ref][j] == NULL_VAL_INT and report_records[i][j] != NULL_VAL_INT:
                         identity_references[id_ref][j] = report_records[i][j]
-                for j in [IMAGE_PATH, HIGHLIGHT_IMAGE]:
+                for j in [IMAGE_PATH, HIGHLIGHT_IMAGE, BOUNDING_BOX_ID]:
                     if report_records[i][j] != NULL_VAL_STRING:
                         if identity_references[id_ref][j] != NULL_VAL_STRING and \
                                 report_records[i][j] not in identity_references[id_ref][j]:

@@ -240,6 +240,7 @@ for dive_name in sequence_names:
         annotation_row.set_upon()
         annotation_row.set_id_ref(warning_messages=warning_messages)
         annotation_row.set_image_paths()
+        annotation_row.set_bounding_box_uuid()
 
         record = [annotation_row.columns[x] for x in HEADERS]  # convert to list
         report_records.append(record)  # append annotation to a list of all annotations from this dive
@@ -281,9 +282,9 @@ os.chdir(output_file_path)
 
 with open(output_file_name + '.tsv', 'w', newline='', encoding='utf-8') as file:
     csv_writer = csv.writer(file, delimiter='\t')
-    csv_writer.writerow(HEADERS[:88])
+    csv_writer.writerow(HEADERS[:len(HEADERS) - 3])  # all headers except the last 3
     for record in full_report_records:
-        csv_writer.writerow(record[:88])
+        csv_writer.writerow(record[:len(HEADERS) - 3])
 
 print(f'\n{Color.BOLD}Output file saved to:{Color.END} {Color.UNDERLINE}{output_file_path}/{output_file_name}.tsv{Color.END}')
 print(f'\n{Color.YELLOW}There are {len(warning_messages)} warning messages.{Color.END}\n')

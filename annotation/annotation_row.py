@@ -596,3 +596,11 @@ class AnnotationRow:
         population_density = get_association(self.annotation, 'population-density')
         if population_density and population_density['link_value'] == 'dense':
             self.columns['HighlightImageFilePath'] = self.columns['ImageFilePath']
+
+    def set_bounding_box_uuid(self):
+        """
+        Sets the 'BoundingBoxID' column with the value pulled from the annotation object.
+        """
+        bounding_box = get_association(self.annotation, 'bounding box')
+        if bounding_box:
+            self.columns['BoundingBoxID'] = bounding_box['uuid']
