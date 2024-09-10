@@ -28,7 +28,14 @@ annotations = [
                 "to_concept": "sed",
                 "link_value": "nil",
                 "mime_type": "text/plain"
-            }
+            },
+            {
+                "uuid": "b860c165-078e-4715-8bc3-491039679b67",
+                "link_name": "bounding box",
+                "to_concept": "self",
+                "link_value": "{\"x\":504,\"y\":389,\"width\":109,\"height\":112,\"generator\":\"VARS Annotation\"}",
+                "mime_type": "application/json"
+            },
         ],
         "ancillary_data": {
             "altitude": 1.899999976158142,
@@ -701,7 +708,7 @@ annotations = [
                 "uuid": "8fd64fc9-c9f0-493d-7c6f-9f136c3adb1e",
                 "link_name": "identity-reference",
                 "to_concept": "self",
-                "link_value": "",
+                "link_value": "",  # this is a test (blank link val for id ref)
                 "mime_type": "text/plain"
             }
         ],
@@ -857,7 +864,8 @@ sample_report_records = [
      'primarily: basalt bedrock with manganese crust / secondary: sediment; basalt pebble with manganese crust; basalt cobble with manganese crust; basalt boulder with manganese crust',
      'basalt bedrock with manganese crust', 'ridge seamount, ridge', 1.5742, 34.6533, 2.3545, 'video observation', 'NA',
      'NA', 'Ocean Exploration Trust; University of Hawaiʻi', 'Bingo, Sarah; sarahr6@hawaii.edu', '2023-04-06',
-     'https://nautiluslive.org/cruise/na134', '', 'Bingo, Sarah', 'sarahr6@hawaii.edu', 'NA', 'NA', 2, False, 'Ophiuroidea'],
+     'https://nautiluslive.org/cruise/na134', '', 'Bingo, Sarah', 'sarahr6@hawaii.edu', 'NA', 'b44c0798-73e5-49c3-a42c-7470a06c6bf0',
+     2, False, 'Ophiuroidea'],
     ['Hercules_1341885_08:13:43', '5a0802e6-5010-4667-0f64-7898734fd71e', '',
      'Ocean Exploration Trust | University of Hawaii Deep-sea Animal Research Center', 'Ophiuroidea', 'NA',
      'brittle stars | brittlestars', 'Class', 123084, 'urn:lsid:marinespecies.org:taxname:123084', 'Echinodermata',
@@ -875,7 +883,8 @@ sample_report_records = [
      'primarily: basalt bedrock with manganese crust / secondary: sediment; basalt pebble with manganese crust; basalt cobble with manganese crust; basalt boulder with manganese crust',
      'basalt bedrock with manganese crust', 'ridge seamount, ridge', 1.5742, 34.6533, 2.3545, 'video observation', 'NA',
      'NA', 'Ocean Exploration Trust; University of Hawaiʻi', 'Bingo, Sarah; sarahr6@hawaii.edu', '2023-04-06',
-     'https://nautiluslive.org/cruise/na134', '', 'Bingo, Sarah', 'sarahr6@hawaii.edu', 'NA', 'NA',  2, False, 'Ophiuroidea'],
+     'https://nautiluslive.org/cruise/na134', '', 'Bingo, Sarah', 'sarahr6@hawaii.edu', 'NA', 'b860c165-078e-4715-8bc3-491039679b67',
+     2, False, 'Ophiuroidea'],
     ['Hercules_1341885_08:14:57', 'd4d9e963-57ce-411c-e869-fd5a744fd71e', '',
      'Ocean Exploration Trust | University of Hawaii Deep-sea Animal Research Center', 'Nematocarcinus sp.', 'NA', 'NA',
      'Genus', 107015, 'urn:lsid:marinespecies.org:taxname:107015', 'Arthropoda', 'Malacostraca', 'Eumalacostraca',
@@ -951,7 +960,8 @@ sample_report_records_collapsed = [
      'primarily: basalt bedrock with manganese crust / secondary: sediment; basalt pebble with manganese crust; basalt cobble with manganese crust; basalt boulder with manganese crust',
      'basalt bedrock with manganese crust', 'ridge seamount, ridge', 1.5742, 34.6533, 2.3545, 'video observation', 'NA',
      'NA', 'Ocean Exploration Trust; University of Hawaiʻi', 'Bingo, Sarah; sarahr6@hawaii.edu', '2023-04-06',
-     'https://nautiluslive.org/cruise/na134', '', 'Bingo, Sarah', 'sarahr6@hawaii.edu', 'NA', 'NA', 2, False, 'Ophiuroidea'],
+     'https://nautiluslive.org/cruise/na134', '', 'Bingo, Sarah', 'sarahr6@hawaii.edu', 'NA',
+     'b44c0798-73e5-49c3-a42c-7470a06c6bf0 | b860c165-078e-4715-8bc3-491039679b67', 2, False, 'Ophiuroidea'],
     ['Hercules_1341885_08:14:57', 'd4d9e963-57ce-411c-e869-fd5a744fd71e', '',
      'Ocean Exploration Trust | University of Hawaii Deep-sea Animal Research Center', 'Nematocarcinus sp.', 'NA', 'NA',
      'Genus', 107015, 'urn:lsid:marinespecies.org:taxname:107015', 'Arthropoda', 'Malacostraca', 'Eumalacostraca',

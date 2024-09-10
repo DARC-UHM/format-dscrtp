@@ -14,42 +14,7 @@ class TestAnnotationRow:
             i += 1
         for val in test_row.columns.values():
             assert val == NULL_VAL_STRING
-        assert test_row.annotation == {
-            "observation_uuid": "0059f860-4799-485f-c06c-5830e5ddd31e",
-            "concept": "Chaceon quinquedens",
-            "observer": "NikkiCunanan",
-            "observation_timestamp": "2022-11-17T21:26:14.245Z",
-            "video_reference_uuid": "cd74c489-6336-4b97-89a6-f151872f282b",
-            "imaged_moment_uuid": "aa7c743e-99ba-4b65-c16c-aeb3585dc91e",
-            "elapsed_time_millis": 0,
-            "recorded_timestamp": "2014-09-05T20:06:26Z",
-            "group": "ROV",
-            "associations": [
-                {
-                    "uuid": "08f0563b-090e-417e-0e68-c314fb69d41e",
-                    "link_name": "s1",
-                    "to_concept": "sed",
-                    "link_value": "nil",
-                    "mime_type": "text/plain"
-                },
-                {
-                    "uuid": "c4eaa100-4bee-46a9-0f65-6525fb69d41e",
-                    "link_name": "upon",
-                    "to_concept": "sed",
-                    "link_value": "nil",
-                    "mime_type": "text/plain"
-                }
-            ],
-            "ancillary_data": {
-                "altitude": 1.899999976158142,
-                "depth_meters": 668.458984375,
-                "latitude": 38.793148973388,
-                "oxygen_ml_l": 7.3196001052856445,
-                "salinity": 35.864898681640625,
-                "temperature_celsius": 5.125999927520752,
-                "uuid": "b5bdfa60-9b20-40c4-6462-9d4db9b3d41e"
-            }
-        }
+        assert test_row.annotation == annotations[0]
         assert test_row.recorded_time.timestamp == \
                TimestampProcessor(test_row.annotation['recorded_timestamp']).timestamp
         assert test_row.observation_time.timestamp == \
@@ -523,3 +488,13 @@ class TestAnnotationRow:
         test_row.set_image_paths()
         assert test_row.columns['ImageFilePath'] == 'https://hurlimage.soest.hawaii.edu/SupplementalPhotos/P5photos/P5-653/P5-653-042.tif | https://hurlimage.soest.hawaii.edu/SupplementalPhotos/P5photos/P5-653/P5-653-d3-13238a1.tif | https://hurlimage.soest.hawaii.edu/SupplementalPhotos/P5photos/P5-653/P5-653-d3-13238a2.tif'
         assert test_row.columns['HighlightImageFilePath'] == NULL_VAL_STRING
+
+    def test_set_bounding_box_uuid_single(self):
+        test_row = AnnotationRow(annotations[0])
+        test_row.set_bounding_box_uuid()
+        assert test_row.columns['BoundingBoxID'] == 'b860c165-078e-4715-8bc3-491039679b67'
+
+    def test_set_bounding_box_uuid_none(self):
+        test_row = AnnotationRow(annotations[1])
+        test_row.set_bounding_box_uuid()
+        assert test_row.columns['BoundingBoxID'] == NULL_VAL_STRING
