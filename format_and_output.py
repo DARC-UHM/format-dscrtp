@@ -25,13 +25,14 @@ from util.terminal_output import Color, Messages
 OUTPUT_FILE_NAME = ''
 OUTPUT_FILE_PATH = ''
 SEQUENCE_NAMES_PATH = ''
+SAVE_HIGHLIGHT_IMAGES = False
 REPORTER = 'Bingo, Sarah'
 REPORTER_EMAIL = 'sarahr6@hawaii.edu'
 
 """#####################################################################################################################
 If you need to run this script multiple times (e.g. for testing or troubleshooting), you can hardcode names and file
-paths here so you don't have to enter them in the CLI every time. If these are left blank, the script will prompt you 
-to enter this information at runtime. If you don't want to use the hardcoded values, simply comment out this block of 
+paths here so you don't have to enter them in the CLI every time. If these are left blank, the script will prompt you
+to enter this information at runtime. If you don't want to use the hardcoded values, simply comment out this block of
 code. """
 
 # the name of the output file without the .tsv extension, e.g. 'NA134'
@@ -81,7 +82,8 @@ with open('reference/Dives.csv', 'r', encoding='utf-8') as dive_csv:
 
 output_file_name = OUTPUT_FILE_NAME or input('Name of output file (without the .tsv file extension: ')
 output_file_path = OUTPUT_FILE_PATH or input('Path to folder of output files: ')
-sequence_names_path = SEQUENCE_NAMES_PATH or input("Path to a list of sequence names: ")
+sequence_names_path = SEQUENCE_NAMES_PATH or input('Path to a list of sequence names: ')
+save_highlight_images = SAVE_HIGHLIGHT_IMAGES or input('Download highlight images? (y/n): ').lower() in ['y', 'yes']
 
 # Decide whether to load or overwrite concepts
 load_concepts = input(Messages.LOAD_CONCEPTS_PROMPT).lower() in ['y', 'yes']
@@ -128,9 +130,16 @@ for dive_name in sequence_names:
     else:
         print(f'\nFetching annotations for {Color.CYAN}{dive_name}{Color.END}')
 
-    url = f'http://hurlstor.soest.hawaii.edu:8086/query/dive/{dive_name.replace(" ", "%20")}'
+    if save_highlight_images:  # create folder for highlight images
+        os.chdir(output_file_path)
+        try:
+            os.mkdir('highlight-images')
+        except OSError as err:
+            if err.errno != errno.EEXIST:
+                raise  # if the OS error is something other than 'directory already exists', raise the error
+            pass  # otherwise, ignore the error
 
-    with requests.get(url) as r:
+    with requests.get(f'http://hurlstor.soest.hawaii.edu:8086/query/dive/{dive_name.replace(" ", "%20")}') as r:
         report_json = r.json()
 
     # Tries to get the current dive from Dives.csv, links information from Dives.csv to the current dive
@@ -245,7 +254,11 @@ for dive_name in sequence_names:
         annotation_row.set_habitat(warning_messages=warning_messages)
         annotation_row.set_upon()
         annotation_row.set_id_ref(warning_messages=warning_messages)
-        annotation_row.set_image_paths()
+        annotation_row.set_image_paths(
+            download_highlight_images=save_highlight_images,
+            output_file_path=os.path.join(output_file_path, 'highlight-images'),
+            warning_messages=warning_messages,
+        )
         annotation_row.set_bounding_box_uuid()
 
         record = [annotation_row.columns[x] for x in HEADERS]  # convert to list

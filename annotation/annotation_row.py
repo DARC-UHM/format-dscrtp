@@ -1,3 +1,6 @@
+import os
+import requests
+
 from datetime import datetime, timezone
 from typing import Dict
 
@@ -181,7 +184,7 @@ class AnnotationRow:
         if concepts[concept_name]['descriptors']:
             self.columns['Morphospecies'] = ' '.join(concepts[concept_name]['descriptors'])
             if self.columns['CombinedNameID'] != NULL_VAL_STRING:
-                self.columns['CombinedNameID'] += f' {self.columns['Morphospecies']}'
+                self.columns['CombinedNameID'] += f' {self.columns["Morphospecies"]}'
             else:
                 self.columns['CombinedNameID'] = self.columns['Morphospecies']
 
@@ -550,9 +553,13 @@ class AnnotationRow:
                 'No oxygen measurement included in this record'
             ])
 
-    def set_image_paths(self):
+    def set_image_paths(self, download_highlight_images: bool, output_file_path: str, warning_messages: list):
         """
         Populates the 'ImageFilePath' and 'HighlightImageFilePath' columns with information from the annotation object.
+
+        :param download_highlight_images: whether or not to download the highlight images and save to local machine.
+        :param output_file_path: where to save the images
+        :param list warning_messages: The list of warning messages to display at the end of the script.
         """
         images = self.annotation['image_references']
         image_paths = []
@@ -589,6 +596,20 @@ class AnnotationRow:
         highlight_image = get_association(self.annotation, 'guide-photo')
         if highlight_image and (highlight_image['to_concept'] == '1 best' or highlight_image['to_concept'] == '2 good'):
             self.columns['HighlightImageFilePath'] = self.columns['ImageFilePath']
+            if download_highlight_images:
+                for image_url in self.columns['HighlightImageFilePath'].split(' | '):
+                    res = requests.get(image_url)
+                    if res.status_code == 200:
+                        os.chdir(output_file_path)
+                        with open(self.columns['ImageFilePath'].split('/')[-1], 'wb') as file:
+                            file.write(res.content)
+                    else:
+                        warning_messages.append([
+                            self.columns['SampleID'],
+                            self.annotation['concept'],
+                            self.annotation['observation_uuid'],
+                            'Error downloading image',
+                        ])
 
         population_density = get_association(self.annotation, 'population-density')
         if population_density and population_density['link_value'] == 'dense':
