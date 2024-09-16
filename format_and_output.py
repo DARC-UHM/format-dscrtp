@@ -25,6 +25,8 @@ from util.terminal_output import Color, Messages
 OUTPUT_FILE_NAME = ''
 OUTPUT_FILE_PATH = ''
 SEQUENCE_NAMES_PATH = ''
+REPORTER = 'Bingo, Sarah'
+REPORTER_EMAIL = 'sarahr6@hawaii.edu'
 
 """#####################################################################################################################
 If you need to run this script multiple times (e.g. for testing or troubleshooting), you can hardcode names and file
@@ -182,7 +184,11 @@ for dive_name in sequence_names:
     for annotation in report_json['annotations']:
         concept_name = annotation['concept']
 
-        annotation_row = AnnotationRow(annotation)  # object to store all annotation information
+        annotation_row = AnnotationRow(
+            annotation=annotation,
+            reporter=REPORTER,
+            reporter_email=REPORTER_EMAIL
+        )  # object to store all annotation information
 
         # populate simple data from annotation & Dives.csv
         annotation_row.set_sample_id(dive_name=dive_name)

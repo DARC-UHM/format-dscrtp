@@ -8,22 +8,19 @@ from util.functions import get_association, convert_username_to_name, get_associ
 from util.terminal_output import Color
 
 
-# Reporter values - update these if reporter changes
-REPORTER = 'Bingo, Sarah'
-REPORTER_EMAIL = 'sarahr6@hawaii.edu'
-
-
 class AnnotationRow:
     """
     Stores information for a specific annotation. See util.constants.HEADERS for a list of all the columns.
     """
 
-    def __init__(self, annotation: Dict):
+    def __init__(self, annotation: Dict, reporter: str, reporter_email: str):
         """
         :param dict annotation: A VARS annotation object retrieved from the HURL server.
         """
         self.columns = dict(zip(HEADERS, [NULL_VAL_STRING] * len(HEADERS)))  # inits dict of header keys with NA vals
         self.annotation = annotation
+        self.reporter = reporter
+        self.reporter_email = reporter_email
         self.recorded_time = TimestampProcessor(self.annotation['recorded_timestamp'])
         self.observation_time = TimestampProcessor(self.annotation['observation_timestamp'])
 
@@ -42,8 +39,8 @@ class AnnotationRow:
         self.columns['ObservationTime'] = self.recorded_time.timestamp.strftime('%H:%M:%S')
         self.columns['OtherData'] = 'CTD'
         self.columns['Modified'] = datetime.now(timezone.utc).strftime('%Y-%m-%d')
-        self.columns['Reporter'] = REPORTER  # defined at top of file
-        self.columns['ReporterEmail'] = REPORTER_EMAIL  # ""
+        self.columns['Reporter'] = self.reporter
+        self.columns['ReporterEmail'] = self.reporter_email
 
         self.columns['EntryDate'] = ''  # this column is left blank, to be filled by DSCRTP admin
 
@@ -66,8 +63,8 @@ class AnnotationRow:
         if 'ancillary_data' not in self.annotation:
             warning_messages.append([
                 self.columns['SampleID'],
-                self.annotation["concept"],
-                self.annotation["observation_uuid"],
+                self.annotation['concept'],
+                self.annotation['observation_uuid'],
                 f'{Color.RED}No ancillary data found for this record{Color.END}'
             ])
             self.columns['Latitude'] = NULL_VAL_INT
@@ -94,8 +91,8 @@ class AnnotationRow:
             # flag warning
             warning_messages.append([
                 self.columns['SampleID'],
-                self.annotation["concept"],
-                self.annotation["observation_uuid"],
+                self.annotation['concept'],
+                self.annotation['observation_uuid'],
                 f'{Color.RED}No location data found for this record{Color.END}'
             ])
         self.set_depth(warning_messages=warning_messages)
@@ -163,8 +160,8 @@ class AnnotationRow:
         if scientific_name == NULL_VAL_STRING:
             warning_messages.append([
                 self.columns['SampleID'],
-                self.annotation["concept"],
-                self.annotation["observation_uuid"],
+                self.annotation['concept'],
+                self.annotation['observation_uuid'],
                 f'{Color.RED}Concept name {concept_name} is {NULL_VAL_STRING} (no WoRMS match found){Color.END}'
             ])
 
@@ -184,7 +181,7 @@ class AnnotationRow:
         if concepts[concept_name]['descriptors']:
             self.columns['Morphospecies'] = ' '.join(concepts[concept_name]['descriptors'])
             if self.columns['CombinedNameID'] != NULL_VAL_STRING:
-                self.columns['CombinedNameID'] += f' {self.columns["Morphospecies"]}'
+                self.columns['CombinedNameID'] += f' {self.columns['Morphospecies']}'
             else:
                 self.columns['CombinedNameID'] = self.columns['Morphospecies']
 
@@ -265,8 +262,8 @@ class AnnotationRow:
             else:
                 warning_messages.append([
                     self.columns['SampleID'],
-                    self.annotation["concept"],
-                    self.annotation["observation_uuid"],
+                    self.annotation['concept'],
+                    self.annotation['observation_uuid'],
                     f'Unable to parse size string: {Color.BOLD}"{size_str}"{Color.END}'
                 ])
         elif old_size_category:
@@ -278,8 +275,8 @@ class AnnotationRow:
             else:
                 warning_messages.append([
                     self.columns['SampleID'],
-                    self.annotation["concept"],
-                    self.annotation["observation_uuid"],
+                    self.annotation['concept'],
+                    self.annotation['observation_uuid'],
                     f'Unable to parse size string: {Color.BOLD}"{size_str}"{Color.END}'
                 ])
         self.columns['VerbatimSize'] = size_str
@@ -299,8 +296,8 @@ class AnnotationRow:
                 # flag warning
                 warning_messages.append([
                     self.columns['SampleID'],
-                    self.annotation["concept"],
-                    self.annotation["observation_uuid"],
+                    self.annotation['concept'],
+                    self.annotation['observation_uuid'],
                     'Dead animal reported',
                 ])
                 self.columns['Condition'] = 'Dead'
@@ -383,8 +380,8 @@ class AnnotationRow:
                 # flag warning
                 warning_messages.append([
                     self.columns['SampleID'],
-                    self.annotation["concept"],
-                    self.annotation["observation_uuid"],
+                    self.annotation['concept'],
+                    self.annotation['observation_uuid'],
                     f'{Color.RED}Missing s1 or could not parse substrate code:{Color.END} '
                     f'{Color.BOLD}to_concept: {s1["to_concept"]}, link_value: {s1["link_value"]}{Color.END}'
                 ])
@@ -394,8 +391,8 @@ class AnnotationRow:
             # flag warning
             warning_messages.append([
                 self.columns['SampleID'],
-                self.annotation["concept"],
-                self.annotation["observation_uuid"],
+                self.annotation['concept'],
+                self.annotation['observation_uuid'],
                 f'{Color.RED}Missing s1{Color.END}'
             ])
 
@@ -420,8 +417,8 @@ class AnnotationRow:
             if len(secondary) != len(s2s_list):
                 warning_messages.append([
                     self.columns['SampleID'],
-                    self.annotation["concept"],
-                    self.annotation["observation_uuid"],
+                    self.annotation['concept'],
+                    self.annotation['observation_uuid'],
                     f'Could not parse s2 substrate codes {Color.BOLD}{failures}{Color.END}'
                 ])
             self.columns['Habitat'] = self.columns['Habitat'] + f' / secondary: {"; ".join(secondary)}'
@@ -469,8 +466,8 @@ class AnnotationRow:
                 self.columns['IdentityReference'] = -1
                 warning_messages.append([
                     self.columns['SampleID'],
-                    self.annotation["concept"],
-                    self.annotation["observation_uuid"],
+                    self.annotation['concept'],
+                    self.annotation['observation_uuid'],
                     f'{Color.YELLOW}An identity-reference exists for this record, but it is empty{Color.END}'
                 ])
             else:
@@ -491,8 +488,8 @@ class AnnotationRow:
             self.columns['DepthInMeters'] = NULL_VAL_INT
             warning_messages.append([
                 self.columns['SampleID'],
-                self.annotation["concept"],
-                self.annotation["observation_uuid"],
+                self.annotation['concept'],
+                self.annotation['observation_uuid'],
                 f'{Color.YELLOW}No depth data found for this record{Color.END}'
             ])
         self.columns['MinimumDepthInMeters'] = self.columns['DepthInMeters']
@@ -511,8 +508,8 @@ class AnnotationRow:
             # flag warning
             warning_messages.append([
                 self.columns['SampleID'],
-                self.annotation["concept"],
-                self.annotation["observation_uuid"],
+                self.annotation['concept'],
+                self.annotation['observation_uuid'],
                 'No temperature measurement included in this record'
             ])
 
@@ -529,8 +526,8 @@ class AnnotationRow:
             # flag warning
             warning_messages.append([
                 self.columns['SampleID'],
-                self.annotation["concept"],
-                self.annotation["observation_uuid"],
+                self.annotation['concept'],
+                self.annotation['observation_uuid'],
                 'No salinity measurement included in this record'
             ])
 
@@ -548,8 +545,8 @@ class AnnotationRow:
             # flag warning
             warning_messages.append([
                 self.columns['SampleID'],
-                self.annotation["concept"],
-                self.annotation["observation_uuid"],
+                self.annotation['concept'],
+                self.annotation['observation_uuid'],
                 'No oxygen measurement included in this record'
             ])
 
@@ -577,7 +574,7 @@ class AnnotationRow:
         if photo_references:
             photo_references = photo_references['link_value'].split(';')
             photo_references[0] = photo_references[0].replace('http://max5kn1.soest.hawaii.edu/imagearchive/', '')
-            path = photo_references[0].split("/")
+            path = photo_references[0].split('/')
             path.pop()
             path = f'https://hurlimage.soest.hawaii.edu/{"/".join(path)}'
             photo_references[0] = f'https://hurlimage.soest.hawaii.edu/{photo_references[0]}'
