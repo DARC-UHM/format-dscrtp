@@ -248,9 +248,9 @@ def find_associated_taxa(report_records: list, concepts: Dict, warning_messages:
                 observation_time = get_date_and_time(associate_record)  # timestamp at which the associate was recorded
                 found = False
                 for j in range(i + 10, -1, -1):
-                    """ 
-                    Checks backward, looking for the most recent host w/ matching name. We start at i + 10 because 
-                    there can be multiple records with the exact same timestamp, and one of those records could be 
+                    """
+                    Checks backward, looking for the most recent host w/ matching name. We start at i + 10 because
+                    there can be multiple records with the exact same timestamp, and one of those records could be
                     the 'upon'
                     """
                     # to catch index out of range exception

@@ -561,9 +561,8 @@ class AnnotationRow:
         :param output_file_path: where to save the images
         :param list warning_messages: The list of warning messages to display at the end of the script.
         """
-        images = self.annotation['image_references']
         image_paths = []
-        for image in images:
+        for image in self.annotation['image_references']:
             image_paths.append(image['url'].replace(
                 'http://hurlstor.soest.hawaii.edu/imagearchive',
                 'https://hurlimage.soest.hawaii.edu')
@@ -597,19 +596,18 @@ class AnnotationRow:
         if highlight_image and (highlight_image['to_concept'] == '1 best' or highlight_image['to_concept'] == '2 good'):
             self.columns['HighlightImageFilePath'] = self.columns['ImageFilePath']
             if download_highlight_images:
-                for image_url in self.columns['HighlightImageFilePath'].split(' | '):
-                    res = requests.get(image_url)
-                    if res.status_code == 200:
-                        os.chdir(output_file_path)
-                        with open(self.columns['ImageFilePath'].split('/')[-1], 'wb') as file:
-                            file.write(res.content)
-                    else:
-                        warning_messages.append([
-                            self.columns['SampleID'],
-                            self.annotation['concept'],
-                            self.annotation['observation_uuid'],
-                            'Error downloading image',
-                        ])
+                res = requests.get(self.columns['ImageFilePath'])
+                if res.status_code == 200:
+                    os.chdir(output_file_path)
+                    with open(self.columns['ImageFilePath'].split('/')[-1], 'wb') as file:
+                        file.write(res.content)
+                else:
+                    warning_messages.append([
+                        self.columns['SampleID'],
+                        self.annotation['concept'],
+                        self.annotation['observation_uuid'],
+                        'Error downloading image',
+                    ])
 
         population_density = get_association(self.annotation, 'population-density')
         if population_density and population_density['link_value'] == 'dense':
