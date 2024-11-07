@@ -306,6 +306,8 @@ with open(output_file_name + '.tsv', 'w', newline='', encoding='utf-8') as file:
         csv_writer.writerow(record[:len(HEADERS) - 3])
 
 print(f'\n{Color.BOLD}Output file saved to:{Color.END} {Color.UNDERLINE}{output_file_path}/{output_file_name}.tsv{Color.END}')
+if save_highlight_images:
+    print(f'{Color.BOLD}Highlight images saved to:{Color.END} {Color.UNDERLINE}{output_file_path}/highlight-images/{Color.END}')
 print(f'\n{Color.YELLOW}There are {len(warning_messages)} warning messages.{Color.END}\n')
 
 # Print warning messages
