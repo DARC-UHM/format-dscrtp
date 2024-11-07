@@ -191,7 +191,7 @@ for dive_name in sequence_names:
     # Main inner loop: iterates through all annotations for the dive and fills out the fields required by DSCRTP
     #############################################################################################################
     for annotation in report_json['annotations']:
-        if annotation['group'] == 'localization':
+        if annotation.get('group') == 'localization':
             # skip annotations in the 'localization' group
             continue
         concept_name = annotation['concept']
