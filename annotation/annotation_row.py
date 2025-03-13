@@ -595,13 +595,28 @@ class AnnotationRow:
         highlight_image = get_association(self.annotation, 'guide-photo')
         if highlight_image and (highlight_image['to_concept'] == '1 best' or highlight_image['to_concept'] == '2 good'):
             self.columns['HighlightImageFilePath'] = self.columns['ImageFilePath']
-            if download_highlight_images:
-                res = requests.get(self.columns['ImageFilePath'])
-                if res.status_code == 200:
-                    os.chdir(output_file_path)
-                    with open(self.columns['ImageFilePath'].split('/')[-1], 'wb') as file:
-                        file.write(res.content)
-                else:
+            if self.columns['ImageFilePath'] == NULL_VAL_STRING:
+                warning_messages.append([
+                    self.columns['SampleID'],
+                    self.annotation['concept'],
+                    self.annotation['observation_uuid'],
+                    'guide-photo for this annotation has a to_concept of "1 best" or "2 good", but the annotation has no image references',
+                ])
+            elif download_highlight_images:
+                try:
+                    res = requests.get(self.columns['ImageFilePath'])
+                    if res.status_code == 200:
+                        os.chdir(output_file_path)
+                        with open(self.columns['ImageFilePath'].split('/')[-1], 'wb') as file:
+                            file.write(res.content)
+                    else:
+                        warning_messages.append([
+                            self.columns['SampleID'],
+                            self.annotation['concept'],
+                            self.annotation['observation_uuid'],
+                            'Error downloading image',
+                        ])
+                except requests.exceptions.ConnectionError:
                     warning_messages.append([
                         self.columns['SampleID'],
                         self.annotation['concept'],
