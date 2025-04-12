@@ -1,4 +1,4 @@
-*.DS_Store 
+*.DS_Store
 
 # IntelliJ files
 .idea
@@ -7,6 +7,8 @@
 __pycache__/
 .pytest_cache/
 *.pyc
+
+reference/test_sequences.csv
 
 # Tests and coverage
 reports/

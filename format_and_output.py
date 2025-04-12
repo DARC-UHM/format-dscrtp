@@ -85,6 +85,9 @@ output_file_path = OUTPUT_FILE_PATH or input('Path to folder of output files: ')
 sequence_names_path = SEQUENCE_NAMES_PATH or input('Path to a list of sequence names: ')
 save_highlight_images = SAVE_HIGHLIGHT_IMAGES or input('Download highlight images? (y/n): ').lower() in ['y', 'yes']
 
+# Decide whether to output only localizations or only regular annotations
+output_type = input('Output regular annotations or localizations? (enter "r" for regular or "l" for localizations): ').lower()
+
 # Decide whether to load or overwrite concepts
 load_concepts = input(Messages.LOAD_CONCEPTS_PROMPT).lower() in ['y', 'yes']
 
@@ -191,9 +194,12 @@ for dive_name in sequence_names:
     # Main inner loop: iterates through all annotations for the dive and fills out the fields required by DSCRTP
     #############################################################################################################
     for annotation in report_json['annotations']:
-        if annotation.get('group') == 'localization':
-            # skip annotations in the 'localization' group
-            continue
+        if output_type == 'r':  # only output regular annotations
+            if annotation.get('group') == 'localization':
+                continue  # skip annotations in the 'localization' group
+        else:  # only output localizations
+            if annotation.get('group') != 'localization':
+                continue  # skip annotations not in the 'localization' group
         concept_name = annotation['concept']
 
         annotation_row = AnnotationRow(
