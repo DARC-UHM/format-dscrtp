@@ -204,7 +204,7 @@ a root ('bed'), and a suffix ('mn'). These will be added together and the final 
 'sediment-covered bedrock with manganese crust'.
 """
 SUFFIXES = ['mn', 'pi', 'a', 'b', 't', 'po', 'hp']
-SUFFIXES_FORMS = ['led', 'cre', 'cha', 'cav', 'cra', 'bu', 'mo', 'ho', 'tr', 'du']
+SUFFIXES_FORMS = ['led', 'cre', 'cha', 'cav', 'cra', 'bu', 'mo', 'ho', 'tr', 'du', 'ven', 'chi']
 PREFIXES = ['dik', 'fl', 'sc', 'tu', 'mu', 'ri', 'col', 'c', 'l', 'm']
 SUFFIXES_DEAD = ['cn', 'spo', ' org', 'bi']
 SUFFIXES_MAN = ['art', 'cem', 'fib', 'met', 'tra', 'ord', 'made', 'wre', 'pla']
