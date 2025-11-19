@@ -196,7 +196,7 @@ ROOTS = ['sed', 'nodmn', 'peb', 'cob', 'bou', 'blk', 'bed', 'chi', 'orgcn', 'org
 
 # VARS substrates that don't have a shorthand
 SAMES = ['organism', 'man-made trash', 'Animal-made tube', 'debris', 'wood', 
-         'sediment', 'pebble', 'cobble', 'boulder', 'bedrock', 'midwater', 'surface', 'chimney']
+         'sediment', 'pebble', 'cobble', 'boulder', 'bedrock', 'midwater', 'surface', 'chimney', "bacterial mat"]
 
 """
 Suffixes and prefixes are additional descriptors added to a root. For example, 'scbedmn' consists of a prefix ('sc'), 
