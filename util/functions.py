@@ -126,6 +126,8 @@ def convert_username_to_name(vars_username: str) -> str:
         return 'Kelly, Christopher'
     if vars_username == 'janeculp':
         return 'Culp, Jane'
+    if vars_username == 'hcarlson':
+        return 'Carlson, Harold'
     for i in range(1, len(vars_username)):
         if vars_username[i].isupper():
             return vars_username[i:] + ', ' + vars_username[0:i]

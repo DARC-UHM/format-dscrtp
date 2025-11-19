@@ -23,8 +23,8 @@ from concept.concept_handler import *
 from util.terminal_output import Color, Messages
 
 OUTPUT_FILE_NAME = ''
-OUTPUT_FILE_PATH = ''
-SEQUENCE_NAMES_PATH = ''
+OUTPUT_FILE_PATH = '/Users/darc/Desktop/AnnotationExtracts'
+SEQUENCE_NAMES_PATH = '/Users/darc/workspace/format-dscrtp/reference/test_sequences.csv'
 SAVE_HIGHLIGHT_IMAGES = False
 REPORTER = 'Bingo, Sarah'
 REPORTER_EMAIL = 'sarahr6@hawaii.edu'
@@ -40,7 +40,7 @@ code. """
 # path where you want the output file to be saved, e.g. '/Volumes/maxarray2/varsadditional/AnnotationExtracts'
 # OUTPUT_FILE_PATH = '/Users/darc/Desktop'
 # path to a csv of the sequence names, e.g. '/Users/darc/Documents/GitHub/Format-Output/reference/test_sequences.csv'
-# SEQUENCE_NAMES_PATH = '/Users/darc/Documents/Github/Format-Output/reference/test_sequences.csv'
+# SEQUENCE_NAMES_PATH = '/Users/darc/workspace/format-dscrtp/reference/test_sequences.csv'
 
 """##################################################################################################################"""
 

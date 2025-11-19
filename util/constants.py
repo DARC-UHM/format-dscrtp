@@ -195,7 +195,7 @@ ROOTS = ['sed', 'nodmn', 'peb', 'cob', 'bou', 'blk', 'bed', 'chi', 'orgcn', 'org
          'orgrho', 'orgsp', 'dead', 'man', 'rov', 'ven', 'org', 'bi', 'tube', 'mid']
 
 # VARS substrates that don't have a shorthand
-SAMES = ['organism', 'man-made trash', 'Animal-made tube', 'debris',
+SAMES = ['organism', 'man-made trash', 'Animal-made tube', 'debris', 'wood', 
          'sediment', 'pebble', 'cobble', 'boulder', 'bedrock', 'midwater', 'surface', 'chimney']
 
 """
